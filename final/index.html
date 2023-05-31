@@ -15,6 +15,8 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
     <script type="application/javascript" src="js/main.js"></script>
     <script type="application/javascript" src="js/links.js"></script>
     <style>
@@ -40,6 +42,16 @@
   <div class="container">
     <h1 class="text-center my-4">Tic Tac Toe</h1>
     <div class="row justify-content-center">
+      <!-- Lobby Creation -->
+      <div class="col-md-6">
+        <div id="lobby-creation">
+          <input type="text" id="lobby-key-input" placeholder="Enter a 6-digit lobby key">
+          <button class="btn btn-primary" id="create-lobby-btn">Create/Join Lobby</button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="row justify-content-center" id="game-board" style="display: none;">
         <div class="col-6">
             <div class="row">
                 <div class="col-md-4 cell" onclick="Move(0,0)"></div>
@@ -57,24 +69,52 @@
                 <div class="col-md-4 cell" onclick="Move(2,2)"></div>
             </div>
         </div>
-    </div>
-    <div class="row justify-content-center mt-4">
-      <button class="btn btn-primary">Reset</button>
+        <div class="row justify-content-center mt-4">
+          <button onclick="resetGame()" class="btn btn-primary">Reset</button>
+        </div>
     </div>
   </div>
 </body>
 
 </html>
 <script>
-  let currentPlayer = 'X';
+  let currentPlayer = null;
+  const player1 = 'X';
+  const player2 = 'O';
   const grid = [
     ['', '', ''],
     ['', '', ''],
     ['', '', '']
   ];
-
+  const lobbyKey = Cookies.get('lobby');
+  let lastUpdated = null; // Variable to track the last updated timestamp
+ 
+  
+  // Polling interval in milliseconds (e.g., update every 2 seconds)
+  const pollingInterval = 1000;
+  
+  // Function to start the polling for live updates
+  function startPolling() {
+    setInterval(function() {
+      retrieveGameData();
+    }, pollingInterval);
+  }
+  
+  // Function to update the game board with the retrieved data
+  function updateGameBoard(gameData) {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        if (gameData[row][col] !== grid[row][col]) {
+          // Update the corresponding cell in the game board
+          grid[row][col] = gameData[row][col];
+          document.getElementsByClassName('cell')[row * 3 + col].innerText = gameData[row][col];
+        }
+      }
+    }
+  }
+  
   function Move(row, col) {
-    if (grid[row][col] === '') {
+    if (currentPlayer && grid[row][col] === '') {
       grid[row][col] = currentPlayer;
       document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
       if (checkWin(currentPlayer)) {
@@ -84,10 +124,83 @@
         alert("It's a tie!");
         resetGame();
       } else {
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        currentPlayer = currentPlayer === player1 ? player2 : player1;
+        storeGameData(grid);
       }
     }
   }
+  
+  // Function to store game data in JSON file
+  function storeGameData(gameData) {
+    const filename = lobbyKey + '.json';
+    $.ajax({
+      type: 'POST',
+      url: 'games/store_game_data.php',
+      data: { filename: filename, gameData: gameData },
+      success: function(response) {
+        console.log('Game data stored successfully.');
+      },
+      error: function() {
+        console.error('Failed to store game data.');
+      }
+    });
+  }
+  
+  // Function to retrieve game data from JSON file
+  function retrieveGameData() {
+    const filename = lobbyKey + '.json';
+    $.ajax({
+      type: 'GET',
+      url: 'games/retrieve_game_data.php',
+      data: { filename: filename },
+      dataType: 'json',
+      success: function(response) {
+        // Handle the retrieved game data
+        if (response && response.gameData) {
+          const gameData = response.gameData;
+          // Update the game board with the retrieved data
+          updateGameBoard(gameData);
+          lastUpdated = new Date().getTime(); // Update the last updated timestamp
+          checkPlayerTurn(gameData);
+        } else {
+          // No existing game data found, handle it accordingly
+          // ...
+        }
+      },
+      error: function() {
+        console.error('Failed to retrieve game data.');
+      }
+    });
+  }
+  
+  // Function to check the player's turn based on the game data
+  function checkPlayerTurn(gameData) {
+    const totalMoves = gameData.flat().filter(value => value !== '').length;
+    currentPlayer = totalMoves % 2 === 0 ? player1 : player2;
+  }
+  
+  // Function to check for new updates since the last updated timestamp
+  function checkForUpdates() {
+    const filename = lobbyKey + '.json';
+    $.ajax({
+      type: 'GET',
+      url: 'games/retrieve_game_data.php',
+      data: { filename: filename, lastUpdated: lastUpdated },
+      dataType: 'json',
+      success: function(response) {
+        if (response && response.gameData) {
+          const gameData = response.gameData;
+          updateGameBoard(gameData);
+          lastUpdated = new Date().getTime(); // Update the last updated timestamp
+          checkPlayerTurn(gameData);
+        }
+      },
+      error: function() {
+        console.error('Failed to check for updates.');
+      }
+    });
+  }
+  
 
   function checkWin(player) {
     // Check rows
@@ -115,6 +228,7 @@
     return false;
   }
 
+
   function checkTie() {
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
@@ -125,14 +239,34 @@
     }
     return true;
   }
+  
 
   function resetGame() {
-    grid.forEach(row => row.fill(''));
-    const cells = document.getElementsByClassName('cell');
-    for (let i = 0; i < cells.length; i++) {
-      cells[i].innerText = '';
-    }
-    currentPlayer = 'X';
+      grid.forEach(row => row.fill(''));
+      const cells = document.getElementsByClassName('cell');
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].innerText = '';
+      }
+      storeGameData(grid)
+      currentPlayer = 'X';
   }
+
+
+  $(document).ready(function() {
+    $('#create-lobby-btn').click(function() {
+      const lobby = $('#lobby-key-input').val();
+      console.log('Lobby key:', lobby);
+      Cookies.set('lobby', lobby)
+      
+      $('#game-board').show();
+      initializeGame();
+    });
+  });
+
+  // Function to initialize the game
+  function initializeGame() {
+    retrieveGameData(); // Initial retrieval of game data
+    startPolling(); // Start the polling for live updates
+  }
+  
 </script>
-    
