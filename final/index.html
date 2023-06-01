@@ -49,6 +49,9 @@
           <button class="btn btn-primary" id="create-lobby-btn">Create/Join Lobby</button>
         </div>
       </div>
+      <div class="col-md-6">
+          <h2 id="currentPlayerDisplay"></h2>
+      </div>
     </div>
     <hr />
     <div class="row justify-content-center" id="game-board" style="display: none;">
@@ -78,7 +81,6 @@
 
 </html>
 <script>
-  let currentPlayer = null;
   const player1 = 'X';
   const player2 = 'O';
   const grid = [
@@ -88,12 +90,11 @@
   ];
   const lobbyKey = Cookies.get('lobby');
   let lastUpdated = null; // Variable to track the last updated timestamp
- 
   
   // Polling interval in milliseconds (e.g., update every 2 seconds)
   const pollingInterval = 1000;
   
-  // Function to start the polling for live updates
+  // Function to start the polling for live updates https://levelup.gitconnected.com/polling-in-javascript-ab2d6378705a?gi=f09e207a63ec
   function startPolling() {
     setInterval(function() {
       retrieveGameData();
@@ -113,8 +114,11 @@
     }
   }
   
+
   function Move(row, col) {
-    if (currentPlayer && grid[row][col] === '') {
+    let player = Cookies.get('player');
+    console.log(currentPlayer, player);
+    if ((currentPlayer == player) && grid[row][col] === '') {
       grid[row][col] = currentPlayer;
       document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
       if (checkWin(currentPlayer)) {
@@ -155,6 +159,17 @@
       data: { filename: filename },
       dataType: 'json',
       success: function(response) {
+        // If new game, make current player player 1
+        // THIS DOESNT WORK :((( idk what to do
+        
+        if (response.player) {
+          Cookies.set('player', 'X');
+          const currentPlayer = 'X';
+        } else if (Cookies.get('player') != 'X') {
+          Cookies.set('player', 'O');
+          const currentPlayer = 'O';
+        }
+
         // Handle the retrieved game data
         if (response && response.gameData) {
           const gameData = response.gameData;
@@ -163,8 +178,6 @@
           lastUpdated = new Date().getTime(); // Update the last updated timestamp
           checkPlayerTurn(gameData);
         } else {
-          // No existing game data found, handle it accordingly
-          // ...
         }
       },
       error: function() {
@@ -256,7 +269,8 @@
     $('#create-lobby-btn').click(function() {
       const lobby = $('#lobby-key-input').val();
       console.log('Lobby key:', lobby);
-      Cookies.set('lobby', lobby)
+      Cookies.set('lobby', lobby);
+      Cookies.set('player', '');
       
       $('#game-board').show();
       initializeGame();
