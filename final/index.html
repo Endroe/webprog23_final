@@ -14,20 +14,22 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script type="application/javascript" src="js/main.js"></script>
     <script type="application/javascript" src="js/links.js"></script>
     <style>
         .cell {
-            width: 100px;
-            height: 100px;
+            flex: 1;
+            width: 20vw;
+            height: 20vh;
             text-align: center;
             vertical-align: middle;
             font-size: 48px;
             cursor: pointer;
-            border: 1px dotted black;
+            margin: 2px;
+            background-color: aliceblue;
             transition: background-color 0.3s ease;
         }
 
@@ -54,7 +56,45 @@
       </div>
     </div>
     <hr />
-    <div class="row justify-content-center" id="game-board" style="display: none;">
+    <!-- style="display: none;" -->
+    <div class="row justify-content-center" id="game-board" >
+
+        <div class="col-md-3 col-lg-3">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Jawid</span>
+            <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-pill">
+              <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/endroe.png" alt="">
+            </span>
+          </h4>
+
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-success">
+                <h6 class="my-0">Wins</h6>
+                <small><i class="fas fa-circle text-success"></i> 45%</small>
+              </div>
+              <span class="text-success">92</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-danger">
+                <h6 class="my-0">Losses</h6>
+                <small><i class="fas fa-circle text-danger"></i> 23%</small>
+              </div>
+              <span class="text-danger">78</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-warning">
+                <h6 class="my-0">Ties</h6>
+                <small><i class="fas fa-circle text-warning"></i> 30%</small>
+              </div>
+              <span class="text-warning">85</span>
+            </li>
+          </ul>
+          <div class="justify-content-center mt-4">
+            <button onclick="resetGame()" class="btn btn-secondary disabled w-100">Opponent</button>
+          </div>
+        </div>
+
         <div class="col-6">
             <div class="row">
                 <div class="col-md-4 cell" onclick="Move(0,0)"></div>
@@ -72,9 +112,50 @@
                 <div class="col-md-4 cell" onclick="Move(2,2)"></div>
             </div>
         </div>
-        <div class="row justify-content-center mt-4">
-          <button onclick="resetGame()" class="btn btn-primary">Reset</button>
+
+        <div class="col-md-3 col-lg-3">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Andrew</span>
+            <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-pill">
+              <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/endroe.png" alt="">
+            </span>
+          </h4>
+          
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-success">
+                <h6 class="my-0">Wins</h6>
+                <small><i class="fas fa-circle text-success"></i> 45%</small>
+              </div>
+              <span class="text-success">92</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-danger">
+                <h6 class="my-0">Losses</h6>
+                <small><i class="fas fa-circle text-danger"></i> 23%</small>
+              </div>
+              <span class="text-danger">78</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-warning">
+                <h6 class="my-0">Ties</h6>
+                <small><i class="fas fa-circle text-warning"></i> 30%</small>
+              </div>
+              <span class="text-warning">85</span>
+            </li>
+          </ul>
+          <div class="justify-content-center mt-4">
+            <button onclick="resetGame()" class="btn btn-danger w-100">Sign Out</button>
+          </div>
+          <form class="p-2">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Username">
+              <button type="submit" class="btn btn-secondary">Sign in</button>
+            </div>
+          </form>
         </div>
+        
+      </div>
     </div>
   </div>
 </body>
