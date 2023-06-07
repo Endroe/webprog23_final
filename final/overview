@@ -1,0 +1,33 @@
+CREATE ROOM INPUT:
+		Room ID
+		username
+
+	
+CONTENTS OF ROOM JSON:
+	- player 1 username
+	- player 2 username
+	- game progress
+
+INITIATE GAME FUNCTION:
+
+	1. Check if room JSON exists.
+	IF ROOM DOES NOT EXIST:
+		2. Initialise file
+		3. Set initiator as player 1
+		4. Go to a waiting screen
+	IF ROOM DOES EXIST:
+		2. Set initiator as player 2
+		3. Start game
+
+
+FINISH GAME FUNCTION:
+	1. Boot both players to a separate END GAME screen, with their results.
+	2. Delete room's JSON.
+	3. Update player statistics if we want that.
+
+
+PLAYER STATISTICS CONTENT:
+	- username
+	- wins
+	- losses
+	- ties
