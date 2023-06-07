@@ -1,9 +1,10 @@
 <?php
 $filename = $_POST['filename'];
-$gameData = $_POST['gameData'];
+$gameState = $_POST['gameData'];
+$inputUsername = $_POST['username'];
 
-if (!empty($filename) && !empty($gameData)) {
-  $jsonData = json_encode($gameData);
+if (!empty($filename) && !empty($gameState)) {
+  $jsonData = json_encode($gameState);
   $filePath = $filename;
   if (file_put_contents($filePath, $jsonData, LOCK_EX) !== false) {
     echo json_encode(['success' => true]);
