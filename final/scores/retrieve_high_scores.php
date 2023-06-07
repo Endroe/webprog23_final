@@ -11,12 +11,11 @@ if (!empty($filename)) {
   } else {
     // Create a scoreboard
     $emptyGrid = [
-        // #   NAME  WINS LOSSES
-        [1, "Andrew", 424, 4],
+        // # NAME WINS LOSSES TIES
+        ["Andrew", 424, 4, 45],
         
     ];
     $jsonData = json_encode($emptyGrid);
-    echo json_encode(['player' => 'player1']);
     // Store the empty grid in the file
     if (file_put_contents($filePath, $jsonData, LOCK_EX) !== false) {
       $responseData = ['gameData' => $emptyGrid];
