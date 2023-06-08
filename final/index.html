@@ -50,7 +50,6 @@
       <div class="col-md-6">
         <div id="lobby-creation">
             <input type="text" id="lobby-key-input" placeholder="Enter a 6-digit lobby key"> <br>
-            <input type="text" id="username-input" placeholder="Enter your username"> <br>
           <button class="btn btn-primary" id="create-lobby-btn">Create/Join Lobby</button>
         </div>
       </div>
@@ -151,7 +150,7 @@
           </div>
           <form class="p-2">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Username">
+              <input id="username-input" type="text" class="form-control" placeholder="Username">
               <button type="submit" class="btn btn-secondary">Sign in</button>
             </div>
           </form>
@@ -235,10 +234,15 @@
   // Function to store game data in JSON file
   function storeGameData(gameData) {
     const filename = lobbyKey + '.json';
+    const playerUsername = $('#username-input').val();
     $.ajax({
       type: 'POST',
       url: 'games/store_game_data.php',
-      data: { filename: filename, gameData: gameData },
+      data: {
+          filename: filename,
+          gameData: gameData,
+          username: playerUsername,
+      },
       success: function(response) {
         console.log('Game data stored successfully.');
       },
