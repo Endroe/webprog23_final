@@ -12,7 +12,7 @@ if (!empty($filename)) {
     // Create a scoreboard
     $emptyGrid = [
         // # NAME WINS LOSSES TIES
-        ["Andrew", 424, 4, 45],
+        ["Andrew", 124, 4, 45],
         
     ];
     $jsonData = json_encode($emptyGrid);

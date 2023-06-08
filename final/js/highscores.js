@@ -1,94 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- Meta Data -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Tic Tac Toe</title>
-
-    <!-- Styles -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/styles.css">
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <script type="application/javascript" src="js/main.js"></script>
-    <script type="application/javascript" src="js/links.js"></script>
-    <style>
-        .cell {
-            flex: 1;
-            width: 20vw;
-            height: 20vh;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 80px;
-            cursor: pointer;
-            margin: 2px;
-            color:burlywood;
-            background-color: aliceblue;
-            transition: background-color 0.3s ease;
-        }
-
-        .cell:hover {
-            background-color: #e5e5e5;
-          }
-      
-          
-    </style>
-</head>
-
-<body>
-  <div class="container">
-    <h1 class="text-center my-4">Tic Tac Toe</h1>
-    <div class="row justify-content-center">
-      <!-- Lobby Creation -->
-      <div class="col-md-6">
-        <div id="lobby-creation">
-          <input type="text" id="lobby-key-input" placeholder="Enter a 6-digit lobby key">
-          <button class="btn btn-primary" id="create-lobby-btn">Create/Join Lobby</button>
-        </div>
-      </div>
-      <div class="col-md-6">
-          <h2 id="currentPlayerDisplay"></h2>
-      </div>
-    </div>
-    <hr />
-    <div class="col-md-3 col-lg-3">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Highscores</span>
-        <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-pill">
-          <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/endroe.png" alt="">
-        </span>
-      </h4>
-      
-      <div id="leaderboard">
-        
-      </div>
-      <div class="justify-content-center mt-4">
-        <button onclick='updateLeaderboard("Andrew", "win")' class="btn btn-danger w-100">Sign Out</button>
-      </div>
-      <form class="p-2">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Username">
-          <button type="submit" class="btn btn-secondary">Sign in</button>
-        </div>
-      </form>
-    </div>
-    <div class="row justify-content-center" id="leaderboard">
-
-        
-      </div>
-    </div>
-  </div>
-</body>
-
-</html>
-<script>
 
 // Function to update the leaderboard for a specific username
 function updateLeaderboard(username, result) {
@@ -143,8 +52,9 @@ function fetchAndDisplayLeaderboard() {
       return winsB - winsA;
     });
 
-    // Retrieve the top 5 players by wins
-    const topPlayers = data.slice(0, 5);
+    // Retrieve the top 25 players by wins
+    const topPlayers = data.slice(0, 25);
+    console.log(topPlayers)
     
     let leaderboardHTML = `
       <ul class="list-group">
@@ -194,10 +104,9 @@ function fetchAndDisplayLeaderboard() {
 $(document).ready(function() {
   $('#create-lobby-btn').click(function() {
     const score = $('#lobby-key-input').val();
-    console.log('Score:', score);
     const playerName = "Andrew";
-    const newScore = [playerName, score, 4, 45];
-
+    const newScore = [playerName, score, score/2, score/4];
+    
     $.getJSON('scores/highscores.json', function(data) {
       let highScoreData = data;
 
@@ -236,4 +145,3 @@ function saveLeaderboardData(data) {
     }
   });
 }
-</script>
