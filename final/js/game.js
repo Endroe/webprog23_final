@@ -35,8 +35,6 @@
   
 
   function Move(row, col) {
-    let player = Cookies.get('player');
-    console.log(currentPlayer, player);
     if ((currentPlayer == player) && grid[row][col] === '') {
       grid[row][col] = currentPlayer;
       document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
@@ -71,20 +69,14 @@
   
   // Function to retrieve game data from JSON file
   function retrieveGameData() {
+    const username = Cookies.get('username');
     const filename = lobbyKey + '.json';
     $.ajax({
       type: 'GET',
       url: 'games/retrieve_game_data.php',
-      data: { filename: filename },
+      data: { filename: filename, currentPlayer: username  },
       dataType: 'json',
       success: function(response) {
-        if (response.player) {
-          Cookies.set('player', 'X');
-          const currentPlayer = 'X';
-        } else if (Cookies.get('player') != 'X') {
-          Cookies.set('player', 'O');
-          const currentPlayer = 'O';
-        }
 
         // Handle the retrieved game data
         if (response && response.gameData) {

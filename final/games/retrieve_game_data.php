@@ -1,6 +1,6 @@
 <?php
 $filename = $_GET['filename'];
-
+$currentPlayer = $_GET['currentPlayer'];
 if (!empty($filename)) {
   $filePath = $filename;
 
@@ -16,7 +16,7 @@ if (!empty($filename)) {
         ['', '', ''],
         ['', '', '']
       ],
-      'player1' => '',
+      'player1' => $currentPlayer,
       'player2' => ''
     ];
     $jsonData = json_encode($emptyGrid);
