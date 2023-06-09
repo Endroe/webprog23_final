@@ -17,6 +17,7 @@
    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <script type="application/javascript" src="js/main.js"></script>
     <script type="application/javascript" src="js/highscores.js"></script>
     <script type="application/javascript" src="js/game.js"></script>
     <style>
@@ -45,12 +46,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Tic Tac Toe</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="index.php" id="index-link">Home</a>
       </li>
@@ -61,8 +58,17 @@
         <a class="nav-link" href="shop.php" id="shop-link">Shop</a>
       </li>
     </ul>
+    <div id="login-section">
+      <input type="text" id="username-input" placeholder="Enter a username">
+      <button class="btn btn-primary" onclick="login()">Login</button>
+    </div>
+    <div id="welcome-section" style="display: none;">
+      <div id="welcome-message"></div>
+      <button class="btn btn-primary" id="logout-btn" onclick="logout()">Logout</button>
+    </div>
   </div>
 </nav>
+
 
 
 <div class="container">
