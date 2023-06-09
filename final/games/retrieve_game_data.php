@@ -9,11 +9,15 @@ if (!empty($filename)) {
     $responseData = ['gameData' => json_decode($data)];
     echo json_encode($responseData);
   } else {
-    // Create an empty grid
+    // Create an empty grid with additional data
     $emptyGrid = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', '']
+      'grid' => [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ],
+      'player1' => '',
+      'player2' => ''
     ];
     $jsonData = json_encode($emptyGrid);
     
@@ -28,4 +32,5 @@ if (!empty($filename)) {
 } else {
   echo json_encode(['error' => 'Invalid filename']);
 }
+
 ?>
