@@ -1,23 +1,11 @@
 CREATE ROOM INPUT:
 		Room ID
-		username
 
 	
 CONTENTS OF ROOM JSON:
 	- player 1 username
 	- player 2 username
 	- game progress
-
-INITIATE GAME FUNCTION:
-
-	1. Check if room JSON exists.
-	IF ROOM DOES NOT EXIST:
-		2. Initialise file
-		3. Set initiator as player 1
-		4. Go to a waiting screen
-	IF ROOM DOES EXIST:
-		2. Set initiator as player 2
-		3. Start game
 
 
 FINISH GAME FUNCTION:
@@ -37,3 +25,23 @@ BUTTON FUNCTION:
 Room/Lobby button: Basically start game button (maybe rename?) Should only function when the user is logged in.
 Sign In: Sets the username. Once signed in, Username input should be locked and Sign Out button should be the only way to set another one.
 Sign Out: Clears the username input (presumably also the variable). Prevents the player from starting games again.
+
+
+PSEUDO CODE FUNCTIONS:
+
+    INITIATE GAME FUNCTION:
+
+	    1. Check if room JSON exists.
+	    IF ROOM DOES NOT EXIST:
+		    2. Initialise file
+		    3. Set initiator as player 1
+		    4. Go to a waiting screen
+	    IF ROOM DOES EXIST:
+		    2. Set initiator as player 2
+		    3. Start game
+
+    RETRIEVE GAME DATA:
+
+        1.
+
+

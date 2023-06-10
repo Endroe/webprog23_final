@@ -6,6 +6,10 @@ const grid = [
   ['', '', ''],
   ['', '', '']
 ];
+
+let username1 = null;
+let username2 = null;
+
 const lobbyKey = Cookies.get('lobby');
 let lastUpdated = null; // Variable to track the last updated timestamp
 
@@ -57,7 +61,12 @@ function storeGameData(gameData) {
   $.ajax({
     type: 'POST',
     url: 'games/store_game_data.php',
-    data: { filename: filename, gameData: gameData },
+    data: {
+      filename: filename,
+      gameData: gameData,
+      player1: username1,
+      player2: username2,
+    },
     success: function(response) {
       console.log('Game data stored successfully.');
     },
@@ -71,16 +80,28 @@ function storeGameData(gameData) {
 function retrieveGameData() {
   const username = Cookies.get('username');
   const filename = lobbyKey + '.json';
+
+  //TEMP: Console Variables
+  console.log(username1);
+  console.log(username2);
+
   $.ajax({
     type: 'GET',
     url: 'games/retrieve_game_data.php',
-    data: { filename: filename, currentPlayer: username  },
+    data: {
+      filename: filename,
+      currentPlayer: username,
+      player1: username1,
+      player2: username2,
+    },
     dataType: 'json',
     success: function(response) {
 
       // Handle the retrieved game data
       if (response && response.gameData) {
         const gameData = response.gameData;
+        username1 = response.player1;
+        username2 = response.player2;
         // Update the game board with the retrieved data
         updateGameBoard(gameData);
         lastUpdated = new Date().getTime(); // Update the last updated timestamp
@@ -188,5 +209,14 @@ $(document).ready(function() {
 // Function to initialize the game
 function initializeGame() {
   retrieveGameData(); // Initial retrieval of game data
+  if (username1 == null) {
+    username1 = Cookies.get('username');
+    storeGameData(grid)
+  } else if (username2 == null) {
+    username2 = Cookies.get('username');
+    storeGameData(grid)
+  } else {
+    console.log("ERROR IN INITIALISATION");
+  }
   startPolling(); // Start the polling for live updates
 }
