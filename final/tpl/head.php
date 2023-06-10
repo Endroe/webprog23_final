@@ -59,8 +59,9 @@
       </li>
     </ul>
     <div id="login-section">
-      <input type="text" id="username-input" placeholder="Enter a username">
-      <button class="btn btn-primary" onclick="login()">Login</button>
+        <input type="text" id="username-input" placeholder="Enter a username">
+        <button class="btn btn-primary" onclick="login()">Login</button>
+        <div id="login-alert">The entered username is invalid.</div>
     </div>
     <div id="welcome-section" style="display: none;">
       <div id="welcome-message"></div>
