@@ -1,3 +1,34 @@
+function getUserData(username) {
+  $.getJSON('scores/highscores.json', function(data) {
+    let userData = null;
+    // Find the data for the specified username
+    for (let i = 0; i < data.length; i++) {
+      const score = data[i];
+      const scoreUsername = score[0];
+
+      if (scoreUsername === username) {
+        userData = {
+          playerName: score[0],
+          wins: parseInt(score[1]),
+          losses: parseInt(score[2]),
+          ties: parseInt(score[3])
+        };
+        break;
+      }
+    }
+
+    if (userData !== null) {
+      console.log('User Data:', userData);
+      // Do something with user data
+    } else {
+      console.log('User not found.');
+      // Don't because it failed
+    }
+  });
+}
+
+
+
 window.onload = function() {
   const username = Cookies.get('username');
   if (username) {
