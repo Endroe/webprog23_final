@@ -4,9 +4,10 @@ $gameState = $_POST['gameData'];
 $inputUsername = $_POST['username'];
 $player1 = $_POST['player1'];
 $player2 = $_POST['player2'];
+$stringState = $_POST['stringState'];
 
 if (!empty($filename) && !empty($gameState)) {
-    $jsonRaw = [$gameState, $player1, $player2];
+    $jsonRaw = [$gameState, $player1, $player2, $stringState];
     $jsonData = json_encode($jsonRaw);
     $filePath = $filename;
     if (file_put_contents($filePath, $jsonData, LOCK_EX) !== false) {

@@ -9,8 +9,9 @@ const grid = [
 
 let username1 = null;
 let username2 = null;
+let gameStringState = "notInGame";
 
-const lobbyKey = Cookies.get('lobby');
+let lobbyKey = Cookies.get('lobby');
 let lastUpdated = null; // Variable to track the last updated timestamp
 
 // Polling interval in milliseconds (e.g., update every 2 seconds)
@@ -39,7 +40,7 @@ function updateGameBoard(gameData) {
 
 
 function Move(row, col) {
-  if ((currentPlayer == player) && grid[row][col] === '') {
+  if ((currentPlayer === player) && grid[row][col] === '') {
     grid[row][col] = currentPlayer;
     document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
     if (checkWin(currentPlayer)) {
@@ -66,6 +67,7 @@ function storeGameData(gameData) {
       gameData: gameData,
       player1: username1,
       player2: username2,
+      stringState: gameStringState,
     },
     success: function(response) {
       console.log('Game data stored successfully.');
@@ -80,10 +82,12 @@ function storeGameData(gameData) {
 function retrieveGameData() {
   const username = Cookies.get('username');
   const filename = lobbyKey + '.json';
+  console.log(filename);
 
   //TEMP: Console Variables
   console.log(username1);
   console.log(username2);
+  console.log(gameStringState);
 
   $.ajax({
     type: 'GET',
@@ -93,6 +97,7 @@ function retrieveGameData() {
       currentPlayer: username,
       player1: username1,
       player2: username2,
+      stringState: gameStringState,
     },
     dataType: 'json',
     success: function(response) {
@@ -102,6 +107,7 @@ function retrieveGameData() {
         const gameData = response.gameData;
         username1 = response.player1;
         username2 = response.player2;
+        gameStringState = response.stringState;
         // Update the game board with the retrieved data
         updateGameBoard(gameData);
         lastUpdated = new Date().getTime(); // Update the last updated timestamp
@@ -195,25 +201,53 @@ function checkTie() {
 
 
 $(document).ready(function() {
+  $('#alert-invalidlobby').hide();
+  $('#alert-notloggedin').hide();
   $('#create-lobby-btn').click(function() {
     const lobby = $('#lobby-key-input').val();
+
+    // Validate Lobby Code
+    if (validateLobby(lobby) === false) {
+      $('#alert-invalidlobby').show();
+      return;
+    }
+
+    // Check if logged in.
+    if (Cookies.get('username') === null) {
+      $('#alert-notloggedin').show();
+      return;
+    }
+
+    $('#alert-invalidlobby').hide();
     console.log('Lobby key:', lobby);
     Cookies.set('lobby', lobby);
     Cookies.set('player', '');
+    lobbyKey = lobby;
 
     $('#game-board').show();
     initializeGame();
   });
 });
 
+function validateLobby(lobbyInput) {
+  const re_lobby = /^[a-z0-9_-]{6}$/igm;
+  if (re_lobby.test(lobbyInput) === false) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 // Function to initialize the game
 function initializeGame() {
   retrieveGameData(); // Initial retrieval of game data
   if (username1 == null) {
     username1 = Cookies.get('username');
+    gameStringState = "waiting";
     storeGameData(grid)
   } else if (username2 == null) {
     username2 = Cookies.get('username');
+    gameStringState = "player1turn";
     storeGameData(grid)
   } else {
     console.log("ERROR IN INITIALISATION");

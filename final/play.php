@@ -6,6 +6,8 @@
         <div id="lobby-creation">
             <input type="text" id="lobby-key-input" placeholder="Enter a lobby key"> <br>
             <button class="btn btn-primary" id="create-lobby-btn">Login</button>
+            <div id="alert-notloggedin">You must be logged in to play!</div>
+            <div id="alert-invalidlobby">Lobby key is invalid.</div>
         </div>
     </div>
     <div class="col-md-6">
