@@ -7,9 +7,9 @@ const grid = [
   ['', '', '']
 ];
 
-let username1 = null;
-let username2 = null;
-let gameStringState = "notInGame";
+var username1 = null;
+var username2 = null;
+var gameStringState = "notInGame";
 
 let lobbyKey = Cookies.get('lobby');
 let lastUpdated = null; // Variable to track the last updated timestamp
@@ -82,18 +82,18 @@ function storeGameData(gameData) {
 function retrieveGameData() {
   const username = Cookies.get('username');
   const filename = lobbyKey + '.json';
-  console.log(filename);
 
   //TEMP: Console Variables
-  console.log(username1);
-  console.log(username2);
-  console.log(gameStringState);
+  //console.log(username1);
+  //console.log(username2);
+  //console.log(gameStringState);
 
   $.ajax({
     type: 'GET',
     url: 'games/retrieve_game_data.php',
     data: {
       filename: filename,
+      gameData: grid,
       currentPlayer: username,
       player1: username1,
       player2: username2,
@@ -109,10 +109,9 @@ function retrieveGameData() {
         username2 = response.player2;
         gameStringState = response.stringState;
         // Update the game board with the retrieved data
-        updateGameBoard(gameData);
-        lastUpdated = new Date().getTime(); // Update the last updated timestamp
-        checkPlayerTurn(gameData);
-      } else {
+        //updateGameBoard(gameData);
+        //lastUpdated = new Date().getTime(); // Update the last updated timestamp
+        //checkPlayerTurn(gameData);
       }
     },
     error: function() {
@@ -245,7 +244,8 @@ function initializeGame() {
     username1 = Cookies.get('username');
     gameStringState = "waiting";
     storeGameData(grid)
-  } else if (username2 == null) {
+  } else if (username2 == null || username2 === "") {
+    console.log(username2);
     username2 = Cookies.get('username');
     gameStringState = "player1turn";
     storeGameData(grid)

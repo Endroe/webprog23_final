@@ -40,8 +40,14 @@ PSEUDO CODE FUNCTIONS:
 		    2. Set initiator as player 2
 		    3. Start game
 
-    RETRIEVE GAME DATA:
 
-        1.
+GAME STATES:
+Dit is simpelweg gemakkelijker denk ik (tenminste, zodra dat ding weer wil werken.)
+STATES:
+    - notInGame
+    - waiting
+    - P1turn
+    - P2turn
+    - gameEnd
 
 
