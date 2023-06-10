@@ -7,7 +7,13 @@ $player2 = $_POST['player2'];
 $stringState = $_POST['stringState'];
 
 if (!empty($filename) && !empty($gameState)) {
-    $jsonRaw = [$gameState, $player1, $player2, $stringState];
+    $jsonRaw = [
+        'grid' => $gameState,
+        'player1' => $player1,
+        'player2' => $player2,
+        'stringState' => $stringState
+    ];
+    //$jsonRaw = [$gameState, $player1, $player2, $stringState];
     $jsonData = json_encode($jsonRaw);
     $filePath = $filename;
     if (file_put_contents($filePath, $jsonData, LOCK_EX) !== false) {

@@ -103,14 +103,14 @@
             </li>
         </ul>
         <div class="justify-content-center mt-4">
-            <button onclick="resetGame()" class="btn btn-danger w-100">Sign Out</button>
+            <button onclick="resetGame()" class="btn btn-danger w-100">Leave Game</button>
         </div>
-        <form class="p-2">
+        <!-- <form class="p-2">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Username">
                 <button type="submit" class="btn btn-secondary">Sign in</button>
             </div>
-        </form>
+        </form> Why is this here? Feel free to add back if it's actually necessary. -->
     </div>
 
 </div>

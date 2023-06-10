@@ -64,7 +64,7 @@ function storeGameData(gameData) {
     url: 'games/store_game_data.php',
     data: {
       filename: filename,
-      gameData: gameData,
+      gameData: grid,
       player1: username1,
       player2: username2,
       stringState: gameStringState,
