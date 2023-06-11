@@ -1,16 +1,22 @@
 <?php include 'tpl/head.php'; ?>
-    
-    <h1>Emoji Shop</h1>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4">Your Stats</h1>
+                <p class="lead">Wins, Losses, and Ties</p>
+            </div>
+            <div class="col-md-6 h-50 d-inline-block">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
 
-    <h2>Available Emojis</h2>
-    <ul id="emoji-list">
-        <li>😀 <span class="price">WINS 64</span> <button class="buy-button">Buy</button></li>
-        <li>😎 <span class="price">WINS 45</span> <button class="buy-button">Buy</button></li>
-        <li>❤️ <span class="price">WINS 78</span> <button class="buy-button">Buy</button></li>
-        <!-- Add more emoji items -->
-    </ul>
 
-    <!-- <script src="shop.js"></script> For checking how many wins a player has and what the player can purchase; once purchase done, substract the amount of wins from players total wins.-->
+    <div id="emoji-container" class="row"></div>
+
+    <script src="js/shop.js"></script> 
 </body>
 
 </html>
