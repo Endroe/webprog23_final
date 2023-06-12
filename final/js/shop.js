@@ -196,7 +196,6 @@ function equipEmoji(username, searchEmoji, player) {
             }
         }
         });
-        console.log(userData);
         saveLeaderboardData(data);
 
         getUserData(username, function(userData) {});
