@@ -226,15 +226,15 @@ function checkTie() {
 }
 
 
-//   function resetGame() {
-//       grid.forEach(row => row.fill(''));
-//       const cells = document.getElementsByClassName('cell');
-//       for (let i = 0; i < cells.length; i++) {
-//         cells[i].innerText = '';
-//       }
-//       storeGameData(grid)
-//       currentPlayer = 'X';
-//   }
+  function resetGame() {
+      grid.forEach(row => row.fill(''));
+      const cells = document.getElementsByClassName('cell');
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].innerText = '';
+      }
+      storeGameData(grid)
+      currentPlayer = 'X';
+  }
 
 
 $(document).ready(function() {

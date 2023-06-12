@@ -38,8 +38,16 @@
         .cell:hover {
             background-color: #e5e5e5;
           }
-      
           
+        .emoji {
+            width: 24px;
+            height: 24px;
+            font-size: 20px;
+            text-align: center;
+            line-height: 24px;
+            border-radius: 50%;
+        }
+        
     </style>
 </head>
 
