@@ -45,7 +45,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Tic Tac Toe</a>
+  <a class="navbar-brand" href="index.php">Tic Tac Toe</a>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
