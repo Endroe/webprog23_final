@@ -1,7 +1,7 @@
 <?php
 $filename = $_POST['filename'];
 $gameState = $_POST['gameData'];
-$inputUsername = $_POST['username'];
+//$inputUsername = $_POST['username'];
 $player1 = $_POST['player1'];
 $player2 = $_POST['player2'];
 $stringState = $_POST['stringState'];

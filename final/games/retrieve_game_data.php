@@ -1,18 +1,19 @@
 <?php
 
 $filename = $_GET['filename'];
-//$currentPlayer = $_GET['currentPlayer'];
+$currentPlayer = $_GET['currentPlayer'];
+//$inputUsername = $_GET['username'];
 
 if (!empty($filename)) {
     $filePath = $filename;
 
     if (file_exists($filePath)) {
         $data = file_get_contents($filePath);
-        $data_decode = json_decode($data);
-        $gameData = $data_decode[0];
-        $player1 = $data_decode[1];
-        $player2 = $data_decode[2];
-        $stringState = $data_decode[3];
+        $data_decode = json_decode($data, true);
+        $gameData = $data_decode['grid'];
+        $player1 = $data_decode['player1'];
+        $player2 = $data_decode['player2'];
+        $stringState = $data_decode['stringState'];
         $responseData = [
             'gameData' => $gameData,
             'player1' => $player1,
