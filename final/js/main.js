@@ -17,7 +17,9 @@ function getUserData(username, callback) {
           playerName: score[0],
           wins: parseInt(score[1]),
           losses: parseInt(score[2]),
-          ties: parseInt(score[3])
+          ties: parseInt(score[3]),
+          xIcon: score[4],
+          oIcon: score[5]
         };
         break;
       }
