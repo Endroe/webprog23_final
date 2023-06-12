@@ -6,6 +6,14 @@
             <div class="col-md-6">
                 <h1 class="display-4">Your Stats</h1>
                 <p class="lead">Wins, Losses, and Ties</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id='xIcon'></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id='oIcon'></div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6 h-50 d-inline-block">
                 <canvas id="chart"></canvas>
