@@ -52,15 +52,24 @@ function fetchAndDisplayLeaderboard() {
 
     // Retrieve the top 25 players by wins
     const topPlayers = data.slice(0, 25);
-    console.log(topPlayers)
     
     let leaderboardHTML = `
-      <ul class="list-group">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Player</th>
+            <th>Wins</th>
+            <th>Ties</th>
+            <th>Losses</th>
+            <th>Win Rate</th>
+          </tr>
+        </thead>
+        <tbody>
     `;
 
     topPlayers.forEach(function(score, index) {
       const playerName = score[0];
-
       let itemClass = 'text-normal'; // Default class for normal players
 
       if (index === 0) {
@@ -79,23 +88,28 @@ function fetchAndDisplayLeaderboard() {
       let percentage = Math.round((wins / totalGames * 100))
 
       leaderboardHTML += `
-        <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-          <div class="${itemClass}">
-            <h6 class="my-0">${playerName}</h6>
-            <small><i class="fas fa-circle ${itemClass}"></i>${percentage}% winrate</small>
-          </div>
-          <span class="${itemClass}">W ${wins} - T ${ties} - L ${losses}</span>
-        </li>
+        <tr>
+          <td class="${itemClass}">${index + 1}</td>
+          <td class="${itemClass}">${playerName}</td>
+          <td class="${itemClass}">${wins}</td>
+          <td class="${itemClass}"${ties}</td>
+          <td class="${itemClass}">${losses}</td>
+          <td class="${itemClass}">${percentage}%</td>
+        </tr>
       `;
     });
 
     leaderboardHTML += `
-      </ul>
+        </tbody>
+      </table>
     `;
 
     $('#leaderboard').html(leaderboardHTML);
   });
 }
+
+// Rest of the code remains the same
+
 
 
 // Button to update leaderboard
