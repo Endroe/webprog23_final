@@ -117,28 +117,28 @@ $(document).ready(function() {
         }
 
         // Create a pie chart
-        // var ctx = document.getElementById('chart').getContext('2d');
-        // new Chart(ctx, {
-        //     type: 'pie',
-        //     data: {
-        //         labels: ['Wins', 'Losses', 'Ties'],
-        //         datasets: [{
-        //             data: [userData.wins, userData.losses, userData.ties],
-        //             backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
-        //             borderWidth: 0
-        //         }]
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         legend: {
-        //             position: 'bottom'
-        //         },
-        //         title: {
-        //             display: true,
-        //             text: 'Your Statistics'
-        //         }
-        //     }
-        // });
+        var ctx = document.getElementById('chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Wins', 'Losses', 'Ties'],
+                datasets: [{
+                    data: [userData.wins, userData.losses, userData.ties],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Your Statistics'
+                }
+            }
+        });
     });
 });
 function equipEmoji(username, emoji) {
