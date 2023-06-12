@@ -1,12 +1,19 @@
 
 const player1 = 'X';
 const player2 = 'O';
-const grid = [
+let grid = [
   ['', '', ''],
   ['', '', ''],
   ['', '', '']
 ];
 
+let localGrid = [ // This is the grid that gets displayed on screen.
+  ['', '', ''],
+  ['', '', ''],
+  ['', '', '']
+];
+
+let lockedUsername = null;
 let username1 = null;
 let username2 = null;
 let gameStringState = "notInGame";
@@ -21,15 +28,18 @@ const pollingInterval = 1000;
 function startPolling() {
   setInterval(function() {
     retrieveGameData();
+    checkForUpdates();
+    updatePage();
   }, pollingInterval);
 }
 
 // Function to update the game board with the retrieved data
 function updateGameBoard(gameData) {
-  let board = gameData.grid;
+  console.log(grid);
+  let board = gameData;
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
-      if (board[row][col] !== grid[row][col]) {
+      if (board[row][col] !== localGrid[row][col]) {
         // Update the corresponding cell in the game board
         grid[row][col] = board[row][col];
         document.getElementsByClassName('cell')[row * 3 + col].innerText = board[row][col];
@@ -38,21 +48,43 @@ function updateGameBoard(gameData) {
   }
 }
 
+function checkMoveLegality() {
+  if (gameStringState === "player1turn" && username1 === lockedUsername) {
+    return true;
+  }
+  else return gameStringState === "player2turn" && username2 === lockedUsername;
+}
 
 function Move(row, col) {
-  if ((currentPlayer === player) && grid[row][col] === '') {
-    grid[row][col] = currentPlayer;
-    document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
-    if (checkWin(currentPlayer)) {
-      alert(`${currentPlayer} wins!`);
-      resetGame();
-    } else if (checkTie()) {
-      alert("It's a tie!");
-      resetGame();
-    } else {
-      currentPlayer = currentPlayer === player1 ? player2 : player1;
-      storeGameData(grid);
+  let currentPlayer = "undefined";
+  if (checkMoveLegality() === false) {
+    return;
+  }
+  if (gameStringState === "player1turn") {
+    currentPlayer = player1;
+  }
+  else {
+    currentPlayer = player2;
+  }
+  grid[row][col] = currentPlayer;
+  document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
+  if (checkWin(currentPlayer)) {
+    alert(`${currentPlayer} wins!`);
+    resetGame();
+  } else if (checkTie()) {
+    alert("It's a tie!");
+    resetGame();
+  } else {
+    if (gameStringState === "player1turn") {
+      gameStringState = "player2turn";
     }
+    else if (gameStringState === "player2turn") {
+      gameStringState = "player1turn";
+    }
+    else {
+      gameStringState = "broken";
+    }
+    storeGameData(grid);
   }
 }
 
@@ -96,7 +128,7 @@ function retrieveGameData() {
     data: {
       filename: filename,
       gameData: grid,
-      currentPlayer: username,
+
       stringState: gameStringState,
     },
     dataType: 'json',
@@ -107,6 +139,7 @@ function retrieveGameData() {
         const gameData = response.gameData;
         username1 = response.player1;
         username2 = response.player2;
+        grid = response.gameData;
         gameStringState = response.stringState;
         // Update the game board with the retrieved data
         //updateGameBoard(gameData);
@@ -131,23 +164,26 @@ function checkPlayerTurn(gameData) {
 // Function to check for new updates since the last updated timestamp
 function checkForUpdates() {
   const filename = lobbyKey + '.json';
-  $.ajax({
-    type: 'GET',
-    url: 'games/retrieve_game_data.php',
-    data: { filename: filename, lastUpdated: lastUpdated },
-    dataType: 'json',
-    success: function(response) {
-      if (response && response.gameData) {
-        const gameData = response.gameData;
-        updateGameBoard(gameData);
-        lastUpdated = new Date().getTime(); // Update the last updated timestamp
-        checkPlayerTurn(gameData);
-      }
-    },
-    error: function() {
-      console.error('Failed to check for updates.');
-    }
-  });
+  //$.ajax({
+  //  type: 'GET',
+  //  url: 'games/retrieve_game_data.php',
+  //  data: { filename: filename, lastUpdated: lastUpdated },
+  //  dataType: 'json',
+  //  success: function(response) {
+  //    if (response && response.gameData) {
+  //      const gameData = response.gameData;
+  //      updateGameBoard(gameData);
+  //      lastUpdated = new Date().getTime(); // Update the last updated timestamp
+  //      checkPlayerTurn(gameData);
+  //    }
+  //  },
+  //  error: function() {
+  //    console.error('Failed to check for updates.');
+  //  }
+  //});
+  updateGameBoard(grid);
+  lastUpdated = new Date().getTime(); // Update the last updated timestamp
+  //checkPlayerTurn(gameData);
 }
 
 
@@ -241,17 +277,18 @@ function validateLobby(lobbyInput) {
 
 // Function to initialize the game
 function initializeGame() {
+  lockedUsername = Cookies.get('username');
   $.when(retrieveGameData()).done(function (a1) {
     console.log("INIT RETRIEVAL");
     console.log(username1);
     console.log(username2);
     if (username1 == null) {
-      username1 = Cookies.get('username');
+      username1 = lockedUsername;
       gameStringState = "waiting";
       storeGameData(grid)
     } else if (username2 === "") {
       console.log(username2);
-      username2 = Cookies.get('username');
+      username2 = lockedUsername;
       gameStringState = "player1turn";
       storeGameData(grid)
     } else {
@@ -262,4 +299,17 @@ function initializeGame() {
     console.log(username2);
     startPolling(); // Start the polling for live updates
   });
+}
+
+function updatePage() {
+  $('#gameStatusIndicator').text(gameStringState);
+  if (username1 === lockedUsername) {
+    $('#player1title').text(username1);
+    $('#player2title').text(username2);
+  }
+  else {
+    $('#player1title').text(username2);
+    $('#player2title').text(username1);
+    console.log("we are not the host.")
+  }
 }

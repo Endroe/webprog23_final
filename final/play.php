@@ -1,5 +1,6 @@
 <?php include 'tpl/head.php'; ?>
 <h1 class="text-center my-4">Tic Tac Toe</h1>
+<h2 class="text-center my-4" id="gameStatusIndicator">GAMESTATUS</h2>
 <div class="row justify-content-center">
     <!-- Lobby Creation -->
     <div class="col-md-6">
@@ -19,7 +20,7 @@
 
     <div class="col-md-3 col-lg-3">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Jawid</span>
+            <span id="player2title" class="text-primary">Jawid</span>
             <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
               <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/endroe.png" alt="">
             </span>
@@ -73,7 +74,7 @@
 
     <div class="col-md-3 col-lg-3">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Andrew</span>
+            <span id="player1title" class="text-primary">Andrew</span>
             <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-pill">
               <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/endroe.png" alt="">
             </span>

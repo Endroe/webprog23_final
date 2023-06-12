@@ -1,7 +1,6 @@
 <?php
 
 $filename = $_GET['filename'];
-$currentPlayer = $_GET['currentPlayer'];
 //$inputUsername = $_GET['username'];
 
 if (!empty($filename)) {
