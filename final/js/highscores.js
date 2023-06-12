@@ -3,7 +3,6 @@
 function updateLeaderboard(username, result) {
   $.getJSON('scores/highscores.json', function(data) {
     let found = false;
-
     // Iterate through the data to find the username
     data.forEach(function(score) {
       const scoreUsername = score[0];
@@ -25,7 +24,7 @@ function updateLeaderboard(username, result) {
     
     // If the username is not found, add a new entry to the array
     if (!found) {
-      const newScore = [username, '0', '0', '0'];
+      const newScore = [username, '0', '0', '0', '❌', '⭕'];
       if (result === 'win') {
         newScore[1] = 1;
       } else if (result === 'loss') {
@@ -35,7 +34,6 @@ function updateLeaderboard(username, result) {
       }
       data.push(newScore);
     }
-
     saveLeaderboardData(data);
 
     fetchAndDisplayLeaderboard();
