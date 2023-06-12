@@ -7,9 +7,9 @@ const grid = [
   ['', '', '']
 ];
 
-var username1 = null;
-var username2 = null;
-var gameStringState = "notInGame";
+let username1 = null;
+let username2 = null;
+let gameStringState = "notInGame";
 
 let lobbyKey = Cookies.get('lobby');
 let lastUpdated = null; // Variable to track the last updated timestamp
@@ -87,22 +87,22 @@ function retrieveGameData() {
   //console.log(username1);
   //console.log(username2);
   //console.log(gameStringState);
+  //console.log("retrieval init happens.")
 
   $.ajax({
     type: 'GET',
     url: 'games/retrieve_game_data.php',
+    async: false,
     data: {
       filename: filename,
       gameData: grid,
       currentPlayer: username,
-      player1: username1,
-      player2: username2,
       stringState: gameStringState,
     },
     dataType: 'json',
     success: function(response) {
-
       // Handle the retrieved game data
+      //console.log("ajax happens");
       if (response && response.gameData) {
         const gameData = response.gameData;
         username1 = response.player1;
@@ -116,8 +116,10 @@ function retrieveGameData() {
     },
     error: function() {
       console.error('Failed to retrieve game data.');
+      console.log("ajax does not happen")
     }
   });
+  return "done";
 }
 
 // Function to check the player's turn based on the game data
@@ -239,18 +241,25 @@ function validateLobby(lobbyInput) {
 
 // Function to initialize the game
 function initializeGame() {
-  retrieveGameData(); // Initial retrieval of game data
-  if (username1 == null) {
-    username1 = Cookies.get('username');
-    gameStringState = "waiting";
-    storeGameData(grid)
-  } else if (username2 == null || username2 === "") {
+  $.when(retrieveGameData()).done(function (a1) {
+    console.log("INIT RETRIEVAL");
+    console.log(username1);
     console.log(username2);
-    username2 = Cookies.get('username');
-    gameStringState = "player1turn";
-    storeGameData(grid)
-  } else {
-    console.log("ERROR IN INITIALISATION");
-  }
-  startPolling(); // Start the polling for live updates
+    if (username1 == null) {
+      username1 = Cookies.get('username');
+      gameStringState = "waiting";
+      storeGameData(grid)
+    } else if (username2 === "") {
+      console.log(username2);
+      username2 = Cookies.get('username');
+      gameStringState = "player1turn";
+      storeGameData(grid)
+    } else {
+      console.log("ERROR IN INITIALISATION");
+    }
+    console.log("INIT STORED");
+    console.log(username1);
+    console.log(username2);
+    startPolling(); // Start the polling for live updates
+  });
 }
