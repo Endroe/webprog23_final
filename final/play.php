@@ -107,7 +107,7 @@
                 </li>
             </ul>
             <div class="justify-content-center mt-4">
-                <button onclick="resetGame()" class="btn btn-danger w-100">Leave Game</button>
+                <button onclick="resetGame()" class="btn btn-danger w-100" id="leave-game-btn">Leave Game</button>
             </div>
             <!-- <form class="p-2">
                 <div class="input-group">

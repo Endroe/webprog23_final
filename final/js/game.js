@@ -204,16 +204,37 @@ function checkTie() {
 }
 
 
-  function resetGame() {
-      grid.forEach(row => row.fill(''));
-      const cells = document.getElementsByClassName('cell');
-      for (let i = 0; i < cells.length; i++) {
-        cells[i].innerText = '';
-      }
-      storeGameData(grid)
-      currentPlayer = 'X';
-  }
+function resetGame() {
+    grid.forEach(row => row.fill(''));
+    const cells = document.getElementsByClassName('cell');
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].innerText = '';
+    }
+    storeGameData(grid)
+    currentPlayer = 'X';
+}
 
+/*Added the following handler for indicating leaving players but it still
+has the following issues:
+1. Used lobby keys cant be used again; once a file with a lobby key
+has been created. Maybe clearing cache helps?
+2. If a player gets a normal win, the win declaration gets blocked?
+It just does not show who has won ig and the game for the winner does not reset.*/ 
+function handlePlayerLeave(leavingPlayer) {
+  // Determine the other player's username
+  const otherPlayer = (leavingPlayer === username1) ? username2 : username1;
+
+  // Declare the other player as the winner
+  alert(`${otherPlayer} wins!`);
+
+  // Update the leaderboard
+  updateLeaderboard(otherPlayer, "win");
+  updateLeaderboard(leavingPlayer, "loss");
+
+  // Reset the game
+  resetGame();
+}
+  
 
 $(document).ready(function() {
   $('#alert-invalidlobby').hide();
@@ -243,6 +264,15 @@ $(document).ready(function() {
 
     $('#game-board').show();
     initializeGame();
+
+    // Calls the leavingPlayer function
+    $('#leave-game-btn').click(function() {
+      // Get the username of the leaving player
+      const leavingPlayer = lockedUsername;
+  
+      // Call the handlePlayerLeave function
+      handlePlayerLeave(leavingPlayer);
+    });
   });
 });
 
@@ -285,6 +315,7 @@ function initializeGame() {
       console.log("ERROR IN INITIALISATION");
       return;
     }
+    $('#leave-game-btn').show();
     startPolling(); // Start the polling for live updates
   });
 }
