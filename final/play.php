@@ -13,6 +13,7 @@
                 </div>
                 <div id="alert-notloggedin">You must be logged in to play!</div>
                 <div id="alert-invalidlobby">Lobby key is invalid.</div>
+                <div id="alert-roomNotAvailable">Sorry, that lobby is not available.</div>
             </div>
         </div>
     </div>
