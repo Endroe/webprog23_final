@@ -25,10 +25,20 @@ function getUserData(username, callback) {
     }
 
     if (userData !== null) {
-      callback(userData);
+      console.log('User found.');
     } else {
       console.log('User not found.');
+      userData = {
+        playerName: username,
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        xIcon:"❌",
+        oIcon:"⭕"
+      };
+      updateLeaderboard(username);
     }
+    callback(userData);
   });
 }
 

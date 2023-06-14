@@ -80,21 +80,82 @@ const emojis = [
     { emoji: '🔑', unicode: 'U+1F511', name: 'Key', wins: 100, losses: 99, ties: 75 },
 ];  
 const username = Cookies.get('username');
+let chartGenerated = false;
+
 
 $(document).ready(function() {
+    generateShop();
+});
+
+/**
+ * Equips a new emoji for a given username and player.
+ * @param {string} username - The username to equip the emoji for.
+ * @param {string} searchEmoji - The emoji to change to.
+ * @param {string} player - The side ('X' or 'O') to equip the emoji for.
+ */
+function equipEmoji(username, searchEmoji, player) {
+    console.log(searchEmoji, username, player);
+    let newEmoji = emojis.find(emoji => emoji.emoji == searchEmoji);
+    $.getJSON('scores/highscores.json', function(data) {
+      let found = false;
+      // Iterate through the data to find the username
+      data.forEach(function(score) {
+        const scoreUsername = score.username;
+        if (scoreUsername === username) {
+          let userData = {
+            playerName: score.username,
+            wins: parseInt(score.wins),
+            losses: parseInt(score.losses),
+            ties: parseInt(score.ties),
+            xIcon: score.xIcon,
+            oIcon: score.oIcon
+          };
+          found = true;
+          // Check to make sure user isn't just running equipEmoji in the console.
+          if (userData.wins >= newEmoji.wins && userData.ties >= newEmoji.ties && userData.losses >= newEmoji.losses) {
+            if (player === 'X') {
+              score.xIcon = newEmoji.emoji;
+            } else {
+              score.oIcon = newEmoji.emoji;
+            }
+
+            saveLeaderboardData(data, function(error, response) {
+                if (error) {
+                    // Handle the error if saving the leaderboard data fails
+                    console.error('An error occurred while saving leaderboard data:', error);
+                    return;
+                }
+                
+                // This is supposed to run when the database is saved, somehow it just doesn't work consistently
+                generateShop();
+              });
+          } else {
+            console.log("Don't even try console cheating!");
+          }
+        }
+      });
+    });
+  }
+
   
-    // HOW TO SEARCH THE EMOJI
+function generateShop() {
+
+    if (!chartGenerated) {
+        generateChart();
+        chartGenerated = true;
+    }
+
     // let cirkel_emoji = emojis.find(emoji => emoji.emoji == '⭕');
     getUserData(username, function(userData) {
-        var xIconText = $('#xIcon');
-        var oIconText = $('#oIcon');
+        var xIconText = $('#xIcon').empty();
+        var oIconText = $('#oIcon').empty();
         var xIcon = emojis.find(emoji => emoji.emoji == userData.xIcon);
         var oIcon = emojis.find(emoji => emoji.emoji == userData.oIcon);
         $('<div class="card text-white bg-dark mb-3"><div class="card-header">Current X Emoji</div><div class="card-body"><h2 class="card-title">' + xIcon.emoji + '</h2><p class="card-text">/ ' + xIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-light" onclick="equipEmoji(\''+ username + '\',\'❌\',\'X\')">Reset to Default</button>').appendTo(xIconText);
         $('<div class="card bg-light mb-3"><div class="card-header">Current O Emoji</div><div class="card-body"><h2 class="card-title">' + oIcon.emoji + '</h2><p class="card-text">/ ' + oIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-dark" onclick="equipEmoji(\''+ username + '\',\'⭕\',\'O\')">Reset to Default</button>').appendTo(oIconText);
 
         
-        var emojiContainer = $('#emoji-container');
+        var emojiContainer = $('#emoji-container').empty();
         // Loop through the emojis and generate cards
         for (var i = 0; i < emojis.length; i++) {
             var emoji = emojis[i];
@@ -137,72 +198,34 @@ $(document).ready(function() {
                 $('<div class="row"></div>').appendTo(emojiContainer);
             }
         }
-        
-
-        // Create a pie chart
-        var ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Wins', 'Losses', 'Ties'],
-                datasets: [{
-                    data: [userData.wins, userData.losses, userData.ties],
-                    backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'Your Statistics'
-                }
-            }
-        });
+    
     });
-});
+};
 
-/**
- * Equips a new emoji for a given username and player.
- * @param {string} username - The username to equip the emoji for.
- * @param {string} searchEmoji - The emoji to search for.
- * @param {string} player - The player ('X' or 'O') to equip the emoji for.
- */
-function equipEmoji(username, searchEmoji, player) {
-    console.log(searchEmoji, username, player);
-    let newEmoji = emojis.find(emoji => emoji.emoji == searchEmoji);
-    $.getJSON('scores/highscores.json', function(data) {
-      let found = false;
-      // Iterate through the data to find the username
-      data.forEach(function(score) {
-        const scoreUsername = score.username;
-        if (scoreUsername === username) {
-          let userData = {
-            playerName: score.username,
-            wins: parseInt(score.wins),
-            losses: parseInt(score.losses),
-            ties: parseInt(score.ties),
-            xIcon: score.xIcon,
-            oIcon: score.oIcon
-          };
-          found = true;
-          // Check to make sure user isn't just running equipEmoji in the console.
-          if (userData.wins >= newEmoji.wins && userData.ties >= newEmoji.ties && userData.losses >= newEmoji.losses) {
-            if (player === 'X') {
-              score.xIcon = newEmoji.emoji;
-            } else {
-              score.oIcon = newEmoji.emoji;
-            }
-          } else {
-            console.log("Don't even try console cheating!");
+function generateChart() {
+    getUserData(username, function(userData) {
+      // Create a pie chart
+      var ctx = document.getElementById('chart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Wins', 'Losses', 'Ties'],
+          datasets: [{
+            data: [userData.wins, userData.losses, userData.ties],
+            backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: true,
+            text: 'Your Statistics'
           }
         }
       });
-      saveLeaderboardData(data);
-      getUserData(username, function(userData) {});
     });
   }
-  

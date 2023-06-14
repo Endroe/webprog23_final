@@ -151,7 +151,7 @@ $(document).ready(function() {
 });
 
 // Function to save the updated leaderboard data to the JSON file
-function saveLeaderboardData(data) {
+function saveLeaderboardData(data, callback) {
   const jsonData = JSON.stringify(data);
   $.ajax({
     type: 'POST',
@@ -159,9 +159,11 @@ function saveLeaderboardData(data) {
     data: { leaderboardData: jsonData },
     success: function(response) {
       console.log('Leaderboard data saved successfully.');
+      callback(null, response); // Call the callback with success
     },
     error: function() {
       console.error('Failed to save leaderboard data.');
+      callback('Failed to save leaderboard data.'); // Call the callback with an error message
     }
   });
 }
