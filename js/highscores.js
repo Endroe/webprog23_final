@@ -70,7 +70,6 @@ function fetchAndDisplayLeaderboard() {
             <th>Wins</th>
             <th>Ties</th>
             <th>Losses</th>
-            <th>Win Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -92,8 +91,6 @@ function fetchAndDisplayLeaderboard() {
       let losses = parseInt(score.losses);
       let ties = parseInt(score.ties);
 
-      let totalGames = wins + losses + ties;
-      let percentage = Math.round((wins / totalGames) * 100);
 
       leaderboardHTML += `
         <tr>
@@ -102,7 +99,6 @@ function fetchAndDisplayLeaderboard() {
           <td class="${itemClass}">${wins}</td>
           <td class="${itemClass}">${ties}</td>
           <td class="${itemClass}">${losses}</td>
-          <td class="${itemClass}">${percentage}%</td>
         </tr>
       `;
     });
