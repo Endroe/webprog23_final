@@ -92,7 +92,7 @@ function fetchAndDisplayLeaderboard() {
           <td class="${itemClass}">${index + 1}</td>
           <td class="${itemClass}">${playerName}</td>
           <td class="${itemClass}">${wins}</td>
-          <td class="${itemClass}"${ties}</td>
+          <td class="${itemClass}">${ties}</td>
           <td class="${itemClass}">${losses}</td>
           <td class="${itemClass}">${percentage}%</td>
         </tr>
