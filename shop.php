@@ -4,8 +4,8 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4">Your Stats</h1>
-                <p class="lead">Wins, Losses, and Ties</p>
+                <h1 class="display-4 text-dark">Your Stats</h1>
+                <p class="lead text-dark">Wins, Losses, and Ties</p>
                 <div class="row">
                     <div class="col-lg-6">
                         <div id='xIcon'></div>

@@ -7,7 +7,8 @@
     font-size: 80px;
     cursor: pointer;
     margin: 2px;
-    background-color: aliceblue;
+    background-color: #343a40;
+    color:#e5e5e5;
     transition: 0.3s ease;
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -18,7 +19,7 @@
     transform: rotateZ(10deg) scale(1.1); /* Apply a rotation and scaling on hover */
 }
 
-  
+
 .emoji {
     width: 24px;
     height: 24px;

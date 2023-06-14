@@ -303,7 +303,6 @@ function initializeGame() {
   let initialRetrieve = retrieveGameData();
   initialRetrieve.then(function() {
   //$.when(retrieveGameData()).done(function () {
-    console.log("fuck 2")
     if (username1 == null) {
       username1 = lockedUsername;
       gameStringState = "waiting";
@@ -331,6 +330,9 @@ function initializeGame() {
       return;
     }
     $('#leave-game-btn').show();
+    $('#lobby-creation').hide();
+    console.log('hshdsh');
+    stopAnimation = true;
     startPolling(); // Start the polling for live updates
   });
 }
