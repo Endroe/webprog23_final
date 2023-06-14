@@ -59,6 +59,7 @@ function login() {
   }
   Cookies.set('username', username);
   displayWelcomeMessage(username);
+  location.reload();
 }
 
 function validateLogin(username) {
@@ -89,4 +90,6 @@ function logout() {
 
   const welcomeSection = document.getElementById('welcome-section');
   welcomeSection.style.display = 'none';
+
+  location.reload();
 }
