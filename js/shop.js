@@ -165,40 +165,44 @@ $(document).ready(function() {
     });
 });
 
+/**
+ * Equips a new emoji for a given username and player.
+ * @param {string} username - The username to equip the emoji for.
+ * @param {string} searchEmoji - The emoji to search for.
+ * @param {string} player - The player ('X' or 'O') to equip the emoji for.
+ */
 function equipEmoji(username, searchEmoji, player) {
     console.log(searchEmoji, username, player);
     let newEmoji = emojis.find(emoji => emoji.emoji == searchEmoji);
     $.getJSON('scores/highscores.json', function(data) {
-        let found = false;
-        // Iterate through the data to find the username
-        data.forEach(function(score) {
-        const scoreUsername = score[0];
+      let found = false;
+      // Iterate through the data to find the username
+      data.forEach(function(score) {
+        const scoreUsername = score.username;
         if (scoreUsername === username) {
-            userData = {
-              playerName: score[0],
-              wins: parseInt(score[1]),
-              losses: parseInt(score[2]),
-              ties: parseInt(score[3]),
-              xIcon: score[4],
-              oIcon: score[5]
-            };
-            found = true;
-            // Check to make sure user isn't just running equipEmoji in the console.
-            if (userData.wins >= newEmoji.wins && userData.ties >= newEmoji.ties && userData.losses >= newEmoji.losses) {
-
-                if (player == 'X') {
-                    score[4] = newEmoji.emoji;
-                } else {
-                    score[5] = newEmoji.emoji;
-                }
+          let userData = {
+            playerName: score.username,
+            wins: parseInt(score.wins),
+            losses: parseInt(score.losses),
+            ties: parseInt(score.ties),
+            xIcon: score.xIcon,
+            oIcon: score.oIcon
+          };
+          found = true;
+          // Check to make sure user isn't just running equipEmoji in the console.
+          if (userData.wins >= newEmoji.wins && userData.ties >= newEmoji.ties && userData.losses >= newEmoji.losses) {
+            if (player === 'X') {
+              score.xIcon = newEmoji.emoji;
             } else {
-                console.log("Don't even try console cheating!");
+              score.oIcon = newEmoji.emoji;
             }
+          } else {
+            console.log("Don't even try console cheating!");
+          }
         }
-        });
-        saveLeaderboardData(data);
-
-        getUserData(username, function(userData) {});
-
+      });
+      saveLeaderboardData(data);
+      getUserData(username, function(userData) {});
     });
-}
+  }
+  
