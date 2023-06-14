@@ -1,7 +1,7 @@
 <?php
 
 $filename = $_GET['filename'];
-//$inputUsername = $_GET['username'];
+$currentPlayer = $_GET['requestingClient'];
 
 if (!empty($filename)) {
     $filePath = $filename;

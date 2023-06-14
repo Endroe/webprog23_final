@@ -107,22 +107,20 @@ function storeGameData(gameData) {
 // Function to retrieve game data from JSON file
 function retrieveGameData() {
   const filename = lobbyKey + '.json';
-
-  $.ajax({
+  return $.ajax({ // We return this for when/then behaviours. Change this and it breaks!
     type: 'GET',
     url: 'games/retrieve_game_data.php',
-    async: false,
     data: {
       filename: filename,
       gameData: grid,
-
       stringState: gameStringState,
+      requestingClient: lockedUsername,
     },
     dataType: 'json',
     success: function(response) {
+      console.log(response);
       // Handle the retrieved game data
       if (response && response.gameData) {
-        const gameData = response.gameData;
         username1 = response.player1;
         username2 = response.player2;
         grid = response.gameData;
@@ -133,7 +131,6 @@ function retrieveGameData() {
       console.error('Failed to retrieve game data.');
     }
   });
-  return "done";
 }
 
 // Function to check for new updates since the last updated timestamp
@@ -288,7 +285,10 @@ function validateLobby(lobbyInput) {
 // Function to initialize the game
 function initializeGame() {
   lockedUsername = Cookies.get('username');
-  $.when(retrieveGameData()).done(function (a1) {
+  let initialRetrieve = retrieveGameData();
+  initialRetrieve.then(function() {
+  //$.when(retrieveGameData()).done(function () {
+    console.log("fuck 2")
     if (username1 == null) {
       username1 = lockedUsername;
       gameStringState = "waiting";
