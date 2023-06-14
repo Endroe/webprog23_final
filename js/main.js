@@ -18,7 +18,7 @@ function getUserData(username, callback) {
           losses: parseInt(score.losses),
           ties: parseInt(score.ties),
           xIcon: score.xIcon,
-          oIcon: score.xIcon
+          oIcon: score.oIcon
         };
         break;
       }
