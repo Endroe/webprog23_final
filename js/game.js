@@ -342,13 +342,13 @@ function updatePage() {
         $('#player1title').text(username1);
         $('#player1emoji').text(user1.xIcon);
         $('#player2title').text(username2);
-        $('#player2emoji').text(user2.xIcon);
+        $('#player2emoji').text(user2.oIcon);
         fetchAndDisplayUsersStats(username1, '#user1StatsDiv', username2, '#user2StatsDiv');
 
       }
       else {
         $('#player1title').text(username2);
-        $('#player1emoji').text(user2.xIcon);
+        $('#player1emoji').text(user2.oIcon);
         $('#player2title').text(username1);
         $('#player2emoji').text(user1.xIcon);
         fetchAndDisplayUsersStats(username1, '#user2StatsDiv', username2, '#user1StatsDiv');
@@ -380,7 +380,6 @@ function fetchAndDisplayUsersStats(username1, divId1, username2, divId2) {
     let user1Stats, user2Stats;
     // Find the stats for the specified usernames
     data.forEach(function(stats) {
-      console.log(stats, 'BASFASFAS');
       if (stats.username === username1) {
         user1Stats = {
           wins: stats.wins,
