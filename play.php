@@ -37,21 +37,22 @@
 
         <div class="col-6">
             <div class="row">
-                <div class="col-md-4 cell" onclick="Move(0,0)"></div>
-                <div class="col-md-4 cell" onclick="Move(0,1)"></div>
-                <div class="col-md-4 cell" onclick="Move(0,2)"></div>
+                <div class="col-md-4 cell" onclick="Move(0,0)" id="cell-0-0"></div>
+                <div class="col-md-4 cell" onclick="Move(0,1)" id="cell-0-1"></div>
+                <div class="col-md-4 cell" onclick="Move(0,2)" id="cell-0-2"></div>
             </div>
             <div class="row">
-                <div class="col-md-4 cell" onclick="Move(1,0)"></div>
-                <div class="col-md-4 cell" onclick="Move(1,1)"></div>
-                <div class="col-md-4 cell" onclick="Move(1,2)"></div>
+                <div class="col-md-4 cell" onclick="Move(1,0)" id="cell-1-0"></div>
+                <div class="col-md-4 cell" onclick="Move(1,1)" id="cell-1-1"></div>
+                <div class="col-md-4 cell" onclick="Move(1,2)" id="cell-1-2"></div>
             </div>
             <div class="row">
-                <div class="col-md-4 cell" onclick="Move(2,0)"></div>
-                <div class="col-md-4 cell" onclick="Move(2,1)"></div>
-                <div class="col-md-4 cell" onclick="Move(2,2)"></div>
+                <div class="col-md-4 cell" onclick="Move(2,0)" id="cell-2-0"></div>
+                <div class="col-md-4 cell" onclick="Move(2,1)" id="cell-2-1"></div>
+                <div class="col-md-4 cell" onclick="Move(2,2)" id="cell-2-2"></div>
             </div>
         </div>
+
 
         <div class="col-md-3 col-lg-3">
             <h4 class="d-flex justify-content-between align-items-center mb-3">

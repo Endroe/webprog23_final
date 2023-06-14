@@ -58,18 +58,32 @@ function checkMoveLegality(row, col) {
 }
 
 function Move(row, col) {
+  
   let currentPlayer = null;
   if (checkMoveLegality(row, col) === false) {
     return;
   }
   if (gameStringState === "player1turn") {
     currentPlayer = player1;
-  }
-  else {
+  } else {
     currentPlayer = player2;
   }
   grid[row][col] = currentPlayer;
   document.getElementsByClassName('cell')[row * 3 + col].innerText = currentPlayer;
+  
+  // Animate the cell
+  var cellId = 'cell-' + row + '-' + col;
+  var cell = document.getElementById(cellId);
+  anime({
+    targets: cell,
+    rotateY: '360deg',
+      scale: [1, 1.2, 1],
+      easing: 'easeInOutSine',
+      duration: 1000,
+      complete: function() {
+          cell.style.backgroundColor = '#007bff';
+      }
+  });
   if (gameStringState === "player1turn") {
     gameStringState = "player2turn";
   }
