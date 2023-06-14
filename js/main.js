@@ -1,5 +1,4 @@
-
-// how to retrieve the data
+// Retrieve the data
 // getUserData(username, function(userData) {
 //   console.log('User Data:', userData);
 // });
@@ -10,16 +9,16 @@ function getUserData(username, callback) {
     // Find the data for the specified username
     for (let i = 0; i < data.length; i++) {
       const score = data[i];
-      const scoreUsername = score[0];
+      const scoreUsername = score.username;
 
       if (scoreUsername === username) {
         userData = {
-          playerName: score[0],
-          wins: parseInt(score[1]),
-          losses: parseInt(score[2]),
-          ties: parseInt(score[3]),
-          xIcon: score[4],
-          oIcon: score[5]
+          playerName: score.username,
+          wins: parseInt(score.wins),
+          losses: parseInt(score.losses),
+          ties: parseInt(score.ties),
+          xIcon: score.xIcon,
+          oIcon: score.xIcon
         };
         break;
       }
@@ -33,7 +32,6 @@ function getUserData(username, callback) {
   });
 }
 
-
 window.onload = function() {
   const username = Cookies.get('username');
   if (username) {
@@ -45,7 +43,7 @@ window.onload = function() {
 function login() {
   const usernameInput = document.getElementById('username-input');
   const username = usernameInput.value;
-  if (validateLogin(username) === false) {
+  if (!validateLogin(username)) {
     $('#login-alert').show();
     return;
   }
@@ -55,11 +53,7 @@ function login() {
 
 function validateLogin(username) {
   const re_username = /^[A-Za-z0-9_-]{3,16}$/igm;
-  if (re_username.test(username) === false) {
-    return false;
-  } else {
-    return true;
-  }
+  return re_username.test(username);
 }
 
 function displayWelcomeMessage(username) {
@@ -85,5 +79,4 @@ function logout() {
 
   const welcomeSection = document.getElementById('welcome-section');
   welcomeSection.style.display = 'none';
-
 }

@@ -336,12 +336,95 @@ function updatePage() {
   }
 
   // Handle usernames on the screen.
-  if (username1 === lockedUsername) {
-    $('#player1title').text(username1);
-    $('#player2title').text(username2);
-  }
-  else {
-    $('#player1title').text(username2);
-    $('#player2title').text(username1);
-  }
+  getUserData(username1, function(user1) {
+    getUserData(username2, function(user2) {
+      if (username1 === lockedUsername) {
+        $('#player1title').text(username1);
+        $('#player1emoji').text(user1.xIcon);
+        $('#player2title').text(username2);
+        $('#player2emoji').text(user2.xIcon);
+        fetchAndDisplayUsersStats(username1, '#user1StatsDiv', username2, '#user2StatsDiv');
+
+      }
+      else {
+        $('#player1title').text(username2);
+        $('#player1emoji').text(user2.xIcon);
+        $('#player2title').text(username1);
+        $('#player2emoji').text(user1.xIcon);
+        fetchAndDisplayUsersStats(username1, '#user2StatsDiv', username2, '#user1StatsDiv');
+      }
+    });
+  });
 }
+function fetchAndDisplayUsersStats(username1, divId1, username2, divId2) {
+  // Function to calculate the win rate percentage
+  function calculatePercentage(count, total) {
+    return Math.round((count / total) * 100);
+  }
+
+  // Function to generate the HTML for the stats list item
+  function generateStatsListItem(title, percentage, count, colorClass) {
+    return `
+      <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+        <div class="${colorClass}">
+          <h6 class="my-0">${title}</h6>
+          <small><i class="fas fa-circle ${colorClass}"></i> ${percentage}%</small>
+        </div>
+        <span class="${colorClass}">${count}</span>
+      </li>
+    `;
+  }
+
+  // Fetch user stats using AJAX or fetch API
+  $.getJSON('scores/highscores.json', function(data) {
+    let user1Stats, user2Stats;
+    // Find the stats for the specified usernames
+    data.forEach(function(stats) {
+      console.log(stats, 'BASFASFAS');
+      if (stats.username === username1) {
+        user1Stats = {
+          wins: stats.wins,
+          ties: stats.ties,
+          losses: stats.losses,
+          totalGames: stats.wins + stats.ties + stats.losses
+        };
+      } else if (stats.username === username2) {
+        user2Stats = {
+          wins: stats.wins,
+          ties: stats.ties,
+          losses: stats.losses,
+          totalGames: stats.wins + stats.ties + stats.losses
+        };
+      }
+    });
+
+    // Calculate win rate percentages
+    const user1WinRate = calculatePercentage(user1Stats.wins, user1Stats.totalGames);
+    const user2WinRate = calculatePercentage(user2Stats.wins, user2Stats.totalGames);
+    const user1TieRate = calculatePercentage(user1Stats.ties, user1Stats.totalGames);
+    const user2TieRate = calculatePercentage(user2Stats.ties, user2Stats.totalGames);
+
+    // Generate the HTML for user1's stats
+    const user1StatsHTML = `
+      <ul class="list-group">
+        ${generateStatsListItem('Wins', user1WinRate, user1Stats.wins, 'text-success')}
+        ${generateStatsListItem('Losses', 100 - user1WinRate - user1TieRate, user1Stats.losses, 'text-danger')}
+        ${generateStatsListItem('Ties', user1TieRate, user1Stats.ties, 'text-warning')}
+      </ul>
+    `;
+
+    // Generate the HTML for user2's stats
+    const user2StatsHTML = `
+      <ul class="list-group">
+        ${generateStatsListItem('Wins', user2WinRate, user2Stats.wins, 'text-success')}
+        ${generateStatsListItem('Losses', 100 - user2WinRate - user2TieRate, user2Stats.losses, 'text-danger')}
+        ${generateStatsListItem('Ties', user2TieRate, user2Stats.ties, 'text-warning')}
+      </ul>
+    `;
+
+    // Write the HTML to the specified divs
+    $(divId1).html(user1StatsHTML);
+    $(divId2).html(user2StatsHTML);
+  });
+}
+

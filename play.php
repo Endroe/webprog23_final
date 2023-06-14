@@ -29,29 +29,7 @@
                 </span>
             </h4>
 
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-success">
-                        <h6 class="my-0">Wins</h6>
-                        <small><i class="fas fa-circle text-success"></i> 45%</small>
-                    </div>
-                    <span class="text-success">92</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-danger">
-                        <h6 class="my-0">Losses</h6>
-                        <small><i class="fas fa-circle text-danger"></i> 23%</small>
-                    </div>
-                    <span class="text-danger">78</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-warning">
-                        <h6 class="my-0">Ties</h6>
-                        <small><i class="fas fa-circle text-warning"></i> 30%</small>
-                    </div>
-                    <span class="text-warning">85</span>
-                </li>
-            </ul>
+            <div id="user2StatsDiv"></div>
             <div class="justify-content-center mt-4">
                 <button class="btn btn-secondary disabled w-100">Opponent</button>
             </div>
@@ -83,29 +61,7 @@
                 </span>
             </h4>
 
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-success">
-                        <h6 class="my-0">Wins</h6>
-                        <small><i class="fas fa-circle text-success"></i> 45%</small>
-                    </div>
-                    <span class="text-success">92</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-danger">
-                        <h6 class="my-0">Losses</h6>
-                        <small><i class="fas fa-circle text-danger"></i> 23%</small>
-                    </div>
-                    <span class="text-danger">78</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-warning">
-                        <h6 class="my-0">Ties</h6>
-                        <small><i class="fas fa-circle text-warning"></i> 30%</small>
-                    </div>
-                    <span class="text-warning">85</span>
-                </li>
-            </ul>
+            <div id="user1StatsDiv"></div>
             <div class="justify-content-center mt-4">
                 <button onclick="resetGame()" class="btn btn-danger w-100" id="leave-game-btn">Leave Game</button>
             </div>
