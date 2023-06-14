@@ -1,0 +1,25 @@
+.cell {
+    flex: 1;
+    width: 20vw;
+    height: 20vh;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 80px;
+    cursor: pointer;
+    margin: 2px;
+    background-color: aliceblue;
+    transition: background-color 0.3s ease;
+}
+
+.cell:hover {
+    background-color: #e5e5e5;
+  }
+  
+.emoji {
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 50%;
+}
