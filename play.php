@@ -25,7 +25,7 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span id="player2title" class="text-primary">Opponent</span>
                 <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
-                    <div id='player2emoji' class="rounded-circle me-1 emoji">😀</div>
+                    <div id='player2emoji' class="rounded-circle me-1 emoji">⭕</div>
                 </span>
             </h4>
 
@@ -58,7 +58,7 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span id="player1title" class="text-primary">Opponent</span>
                 <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
-                    <div id='player1emoji' class="rounded-circle me-1 emoji">😀</div>
+                    <div id='player1emoji' class="rounded-circle me-1 emoji">❌</div>
                 </span>
             </h4>
 
