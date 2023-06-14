@@ -84,7 +84,11 @@ let chartGenerated = false;
 
 
 $(document).ready(function() {
-    generateShop();
+  if (username != null) { 
+    generateShop(); 
+  } else {
+    generateHeader("❌", "⭕");
+  };
 });
 
 /**
@@ -147,13 +151,9 @@ function generateShop() {
 
     // let cirkel_emoji = emojis.find(emoji => emoji.emoji == '⭕');
     getUserData(username, function(userData) {
-        var xIconText = $('#xIcon').empty();
-        var oIconText = $('#oIcon').empty();
-        var xIcon = emojis.find(emoji => emoji.emoji == userData.xIcon);
-        var oIcon = emojis.find(emoji => emoji.emoji == userData.oIcon);
-        $('<div class="card text-white bg-dark mb-3"><div class="card-header">Current X Emoji</div><div class="card-body"><h2 class="card-title">' + xIcon.emoji + '</h2><p class="card-text">/ ' + xIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-light" onclick="equipEmoji(\''+ username + '\',\'❌\',\'X\')">Reset to Default</button>').appendTo(xIconText);
-        $('<div class="card bg-light mb-3"><div class="card-header">Current O Emoji</div><div class="card-body"><h2 class="card-title">' + oIcon.emoji + '</h2><p class="card-text">/ ' + oIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-dark" onclick="equipEmoji(\''+ username + '\',\'⭕\',\'O\')">Reset to Default</button>').appendTo(oIconText);
-
+        var icons = generateHeader(userData.xIcon, userData.oIcon);
+        var xIcon = icons.xIcon;
+        var oIcon = icons.oIcon;
         
         var emojiContainer = $('#emoji-container').empty();
         // Loop through the emojis and generate cards
@@ -161,9 +161,9 @@ function generateShop() {
             var emoji = emojis[i];
             // Create card element
             var card = $('<div class="card mb-4 box-shadow col-md-3"></div>').appendTo(emojiContainer);
-            $('<div class="card-header"></div>').append($('<h4 class="my-0 font-weight-normal">' + emoji.name + '</h4>')).appendTo(card);
+            $('<div class="card-header"></div>').append($('<h4 class="my-0 font-weight-normal text-dark">' + emoji.name + '</h4>')).appendTo(card);
             var cardBody = $('<div class="card-body"></div>').appendTo(card);
-            $('<h1 class="card-title pricing-card-title">' + emoji.emoji + '</h1> <small class="text-muted">/ ' + emoji.unicode + '</small>').appendTo(cardBody);
+            $('<h1 class="card-title">' + emoji.emoji + '</h1> <small class="text-muted">/ ' + emoji.unicode + '</small>').appendTo(cardBody);
 
             var winText = (emoji.wins <= userData.wins) ? "text-success" : "text-danger";
             var tieText = (emoji.ties <= userData.ties) ? "text-success" : "text-danger";
@@ -201,6 +201,22 @@ function generateShop() {
     
     });
 };
+
+
+function generateHeader(iconX, iconO) {
+  var xIconText = $('#xIcon').empty();
+  var oIconText = $('#oIcon').empty();
+  var xIcon = emojis.find(emoji => emoji.emoji == iconX);
+  var oIcon = emojis.find(emoji => emoji.emoji == iconO);    
+  $('<div class="card text-white bg-dark mb-3"><div class="card-header"><h4 class="my-0 font-weight-normal text-light">Current X Emoji</h4></div><div class="card-body"><h2 class="card-title">' + xIcon.emoji + '</h2><p class="card-text">/ ' + xIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-light" onclick="equipEmoji(\''+ username + '\',\'❌\',\'X\')">Reset to Default</button>').appendTo(xIconText);
+  $('<div class="card bg-secondary mb-3"><div class="card-header"><h4 class="my-0 font-weight-normal text-light">Current O Emoji</h4></div><div class="card-body"><h2 class="card-title">' + oIcon.emoji + '</h2><p class="card-text">/ ' + oIcon.unicode + '</p><button type="button" class="btn btn-lg btn-block btn-outline-light" onclick="equipEmoji(\''+ username + '\',\'⭕\',\'O\')">Reset to Default</button>').appendTo(oIconText);
+
+  return {
+    xIcon: xIcon,
+    oIcon: oIcon
+  };
+}
+
 
 function generateChart() {
     getUserData(username, function(userData) {
