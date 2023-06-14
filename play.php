@@ -1,5 +1,4 @@
 <?php include 'tpl/head.php'; ?>
-    <h1 class="text-center my-4">Tic Tac Toe</h1>
     <h2 class="text-center my-4" id="gameStatusIndicator">Enter a Lobby Key</h2>
     <div class="row justify-content-center">
     <!-- Lobby Creation -->
@@ -66,12 +65,6 @@
             <div class="justify-content-center mt-4">
                 <button onclick="resetGame()" class="btn btn-danger w-100" id="leave-game-btn">Leave Game</button>
             </div>
-            <!-- <form class="p-2">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username">
-                    <button type="submit" class="btn btn-secondary">Sign in</button>
-                </div>
-            </form> Why is this here? Feel free to add back if it's actually necessary. -->
         </div>
 
     </div>
