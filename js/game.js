@@ -97,7 +97,7 @@ function Move(row, col) {
 }
 
 // Function to store game data in JSON file
-function storeGameData(gameData) {
+function storeGameData() {
   const filename = lobbyKey + '.json';
   $.ajax({
     type: 'POST',
@@ -109,7 +109,7 @@ function storeGameData(gameData) {
       player2: username2,
       stringState: gameStringState,
     },
-    success: function(response) {
+    success: function() {
       console.log('Game data stored successfully.');
     },
     error: function() {
@@ -148,7 +148,7 @@ function retrieveGameData() {
 
 // Function to check for new updates since the last updated timestamp
 function checkForUpdates() {
-  const filename = lobbyKey + '.json';
+  //const filename = lobbyKey + '.json';
   updateGameBoard(grid);
   lastUpdated = new Date().getTime(); // Update the last updated timestamp
   checkGameEnd();
@@ -157,21 +157,33 @@ function checkForUpdates() {
 function checkGameEnd() {
   if (checkWin("X")) {
     alert(`${username1} wins!`);
-    updateLeaderboard(username1, "win");
-    updateLeaderboard(username2, "loss");
+    sendOwnResult("X");
     resetGame();
   }
   else if (checkWin("O")) {
     alert(`${username2} wins!`);
-    updateLeaderboard(username2, "win");
-    updateLeaderboard(username1, "loss");
+    sendOwnResult("O");
     resetGame();
   }
   else if (checkTie()) {
     alert("It's a tie!");
-    updateLeaderboard(username1, "tie");
-    updateLeaderboard(username2, "tie");
+    sendOwnResult("tie");
     resetGame();
+  }
+}
+
+function sendOwnResult(winner) {
+  if (player1 === winner && lockedUsername === username1) { // Client is X and X wins.
+    updateLeaderboard(lockedUsername, "win");
+  }
+  else if (player2 === winner && lockedUsername === username2) { // Client is O and O wins.
+    updateLeaderboard(lockedUsername, "win");
+  }
+  else if (winner === "tie") {
+    updateLeaderboard(lockedUsername, "tie");
+  }
+  else {
+    updateLeaderboard(lockedUsername, "loss");
   }
 }
 
@@ -293,11 +305,7 @@ $(document).ready(function() {
 
 function validateLobby(lobbyInput) {
   const re_lobby = /^[a-z0-9_-]{6}$/igm;
-  if (re_lobby.test(lobbyInput) === false) {
-    return false;
-  } else {
-    return true;
-  }
+  return re_lobby.test(lobbyInput) !== false;
 }
 
 // Function to initialize the game
