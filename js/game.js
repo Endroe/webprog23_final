@@ -237,25 +237,27 @@ function resetGame() {
     currentPlayer = 'X';
 }
 
-/*Added the following handler for indicating leaving players but it still
+/*
+Added the following handler for indicating leaving players but it still
 has the following issues:
-1. Used lobby keys cant be used again; once a file with a lobby key
-has been created. Maybe clearing cache helps?
-2. If a player gets a normal win, the win declaration gets blocked?
-It just does not show who has won ig and the game for the winner does not reset.*/ 
-function handlePlayerLeave(leavingPlayer) {
+1. Only adds the loss to the leaving players leaderboard.
+2. Does NOT add the win to the other players leaderboard.
+3. You can only leave the game if it is your turn, i think.
+*/ 
+function handlePlayerLeave(lockedUsername) {
   // Determine the other player's username
-  const otherPlayer = (leavingPlayer === username1) ? username2 : username1;
-
-  // Declare the other player as the winner
-  alert(`${otherPlayer} wins!`);
-
-  // Update the leaderboard
-  updateLeaderboard(otherPlayer, "win");
-  updateLeaderboard(leavingPlayer, "loss");
-
-  // Reset the game
-  resetGame();
+  const otherPlayer = (lockedUsername === username1) ? username2 : username1;
+  if (otherPlayer === username1 && lockedUsername === username2) {
+    alert(`${otherplayer} wins!`)
+    updateLeaderboard(username1, "win");
+    updateLeaderboard(username2, "loss");
+    resetGame();
+  } else if (otherPlayer === username2 && lockedUsername === username1) {
+    alert(`${otherPlayer} wins!`)
+    updateLeaderboard(username2, "win");
+    updateLeaderboard(username1, "loss")
+    resetGame();
+  }
 }
   
 
