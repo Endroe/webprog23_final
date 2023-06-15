@@ -120,7 +120,6 @@ function storeGameData(gameData) {
 
 // Function to retrieve game data from JSON file
 function retrieveGameData() {
-  console.log(Cookies.get('username'));
   const filename = lobbyKey + '.json';
   return $.ajax({ // We return this for when/then behaviours. Change this and it breaks!
     type: 'GET',
@@ -133,7 +132,6 @@ function retrieveGameData() {
     },
     dataType: 'json',
     success: function(response) {
-      console.log(response);
       // Handle the retrieved game data
       if (response && response.gameData) {
         username1 = response.player1;
@@ -258,22 +256,23 @@ $(document).ready(function() {
   $('#create-lobby-btn').click(function() {
     const lobby = $('#lobby-key-input').val();
 
+    // Hide helpers.
+    $('#alert-invalidlobby').hide();
+    $('#alert-roomNotAvailable').hide();
+    $('#alert-duplicatePlayer').hide();
+
+    // Check if logged in.
+    if (Cookies.get('username') === undefined) {
+      $('#alert-notloggedin').show();
+      return;
+    }
+
     // Validate Lobby Code
     if (validateLobby(lobby) === false) {
       $('#alert-invalidlobby').show();
       return;
     }
 
-    // Check if logged in.
-    if (Cookies.get('username') === null) {
-      $('#alert-notloggedin').show();
-      return;
-    }
-
-    $('#alert-invalidlobby').hide();
-    $('#alert-roomNotAvailable').hide();
-    $('#alert-duplicatePlayer').hide();
-    console.log('Lobby key:', lobby);
     Cookies.set('lobby', lobby);
     Cookies.set('player', '');
     lobbyKey = lobby;
@@ -355,7 +354,6 @@ function initializeGame() {
     $('#gameStatusIndicator').show();
     $('#leave-game-btn').show();
     $('#lobby-creation').hide();
-    console.log('hshdsh');
     stopAnimation = true;
     startPolling(); // Start the polling for live updates
   });
