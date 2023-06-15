@@ -120,6 +120,7 @@ function storeGameData(gameData) {
 
 // Function to retrieve game data from JSON file
 function retrieveGameData() {
+  console.log(Cookies.get('username'));
   const filename = lobbyKey + '.json';
   return $.ajax({ // We return this for when/then behaviours. Change this and it breaks!
     type: 'GET',
@@ -249,9 +250,11 @@ function handlePlayerLeave(leavingPlayer) {
   
 
 $(document).ready(function() {
+  $('#gameStatusIndicator').hide();
   $('#alert-invalidlobby').hide();
   $('#alert-notloggedin').hide();
   $('#alert-roomNotAvailable').hide();
+  $('#alert-duplicatePlayer').hide();
   $('#create-lobby-btn').click(function() {
     const lobby = $('#lobby-key-input').val();
 
@@ -269,6 +272,7 @@ $(document).ready(function() {
 
     $('#alert-invalidlobby').hide();
     $('#alert-roomNotAvailable').hide();
+    $('#alert-duplicatePlayer').hide();
     console.log('Lobby key:', lobby);
     Cookies.set('lobby', lobby);
     Cookies.set('player', '');
@@ -302,7 +306,26 @@ function initializeGame() {
   lockedUsername = Cookies.get('username');
   let initialRetrieve = retrieveGameData();
   initialRetrieve.then(function() {
-  //$.when(retrieveGameData()).done(function () {
+    //Check for duplicate login.
+    if (lockedUsername === username1) {
+      $('#alert-duplicatePlayer').show();
+      username1 = null;
+      username2 = null;
+      lockedUsername = null;
+      grid = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ];
+      localGrid = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ];
+      console.log("ERROR IN INITIALISATION");
+      return;
+    }
+
     if (username1 == null) {
       username1 = lockedUsername;
       gameStringState = "waiting";
@@ -329,6 +352,7 @@ function initializeGame() {
       console.log("ERROR IN INITIALISATION");
       return;
     }
+    $('#gameStatusIndicator').show();
     $('#leave-game-btn').show();
     $('#lobby-creation').hide();
     console.log('hshdsh');

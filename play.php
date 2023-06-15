@@ -14,10 +14,11 @@
 
             <div id="user2StatsDiv"></div>
             <div id="lobby-creation">
-            <h4 class="text-center my-4" id="gameStatusIndicator">Enter a Lobby Key</h4>
+            <h4 class="text-center my-4">Enter a Lobby Key</h4>
                 <input class="input w-100 h-100" type="text" id="lobby-key-input" placeholder="515151"> <br>
                 <div id="alert-notloggedin">You must be logged in to play!</div>
                 <div id="alert-invalidlobby">Lobby key is invalid.</div>
+                <div id="alert-duplicatePlayer">Sorry, you cannot play against yourself.</div>
                 <div id="alert-roomNotAvailable">Sorry, that lobby is not available.</div>
             </div>
             <div class="justify-content-center mt-4">
@@ -57,6 +58,8 @@
                 <button onclick="resetGame()" class="btn btn-danger w-100" id="leave-game-btn">Leave Game</button>
             </div>
         </div>
+        
+        <h4 class="text-center my-4" id="gameStatusIndicator">Initializing game...</h4>
 
     </div>
     </div>
