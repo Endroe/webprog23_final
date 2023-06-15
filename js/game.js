@@ -247,18 +247,40 @@ has the following issues:
 function handlePlayerLeave(lockedUsername) {
   // Determine the other player's username
   const otherPlayer = (lockedUsername === username1) ? username2 : username1;
-  if (otherPlayer === username1 && lockedUsername === username2) {
-    alert(`${otherplayer} wins!`)
-    updateLeaderboard(username1, "win");
-    updateLeaderboard(username2, "loss");
-    resetGame();
-  } else if (otherPlayer === username2 && lockedUsername === username1) {
-    alert(`${otherPlayer} wins!`)
-    updateLeaderboard(username2, "win");
-    updateLeaderboard(username1, "loss")
-    resetGame();
+  if (lockedUsername === username1) {
+    alert(`${username1} loses!`);
+    updateLeaderboard(lockedUsername, "loss");
+    alert(`${username2} wins!`);
+    updateLeaderboard(otherPlayer, "win");
+  } else if (lockedUsername === username2) {
+    alert(`${username2} loses!`);
+    updateLeaderboard(lockedUsername, "loss");
+    alert(`${username1} wins!`);
+    updateLeaderboard(otherPlayer, "win");
   }
+  // // Check if the leaving player is part of the game
+  // if (lockedUsername === username1 || lockedUsername === username2) {
+  //   // The leaving player loses
+  //   alert(`${lockedUsername} loses!`);
+  //   updateLeaderboard(player, "loss");
+
+  //   // The other player wins
+  //   alert(`${otherPlayer} wins!`);
+  //   updateLeaderboard(player, "win");
+
+  //   resetGame();
+  // if (otherPlayer === username1 && lockedUsername === username2) {
+  //   alert(`${otherplayer} wins!`)
+  //   updateLeaderboard(username1, "win");
+  //   updateLeaderboard(username2, "loss");
+  //   resetGame();
+  // } else if (otherPlayer === username2 && lockedUsername === username1) {
+  //   alert(`${otherPlayer} wins!`)
+  //   updateLeaderboard(username2, "win");
+  //   updateLeaderboard(username1, "loss")
+  //   resetGame();
 }
+
   
 
 $(document).ready(function() {
@@ -294,14 +316,12 @@ $(document).ready(function() {
     $('#game-board').show();
     initializeGame();
 
-    // Calls the leavingPlayer function
-    $('#leave-game-btn').click(function() {
-      // Get the username of the leaving player
-      const leavingPlayer = lockedUsername;
-  
-      // Call the handlePlayerLeave function
-      handlePlayerLeave(leavingPlayer);
-    });
+  });
+  // Calls the leavingPlayer function
+  $('#leave-game-btn').click(function() {
+    // Call the handlePlayerLeave function
+    handlePlayerLeave(lockedUsername);
+    resetGame();
   });
 });
 
