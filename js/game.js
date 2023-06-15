@@ -289,34 +289,52 @@ $(document).ready(function() {
   $('#alert-notloggedin').hide();
   $('#alert-roomNotAvailable').hide();
   $('#alert-duplicatePlayer').hide();
-  $('#create-lobby-btn').click(function() {
-    const lobby = $('#lobby-key-input').val();
 
+  $('#create-lobby-btn').click(function() {
+    createLobby();
+  });
+  
+  $('#generate-lobby-key-btn').click(function() {
+    generateRandomKey();
+    createLobby();
+  });
+  
+  function createLobby() {
+    const lobby = $('#lobby-key-input').val();
+  
     // Hide helpers.
     $('#alert-invalidlobby').hide();
     $('#alert-roomNotAvailable').hide();
     $('#alert-duplicatePlayer').hide();
-
+  
     // Check if logged in.
     if (Cookies.get('username') === undefined) {
       $('#alert-notloggedin').show();
       return;
     }
-
+  
     // Validate Lobby Code
     if (validateLobby(lobby) === false) {
       $('#alert-invalidlobby').show();
       return;
     }
-
+  
     Cookies.set('lobby', lobby);
     Cookies.set('player', '');
     lobbyKey = lobby;
-
+  
     $('#game-board').show();
     initializeGame();
+  }
+  
+  function generateRandomKey() {
+    const min = 100000;
+    const max = 999999;
+    const randomKey = Math.floor(Math.random() * (max - min + 1)) + min;
+    $('#lobby-key-input').val(randomKey);
+  }
+  
 
-  });
   // Calls the leavingPlayer function
   $('#leave-game-btn').click(function() {
     // Call the handlePlayerLeave function
@@ -383,7 +401,7 @@ function initializeGame() {
     }
     $('#gameStatusIndicator').show();
     $('#leave-game-btn').show();
-    $('#lobby-creation').hide();
+    // $('#lobby-creation').hide();
     stopAnimation = true;
     startPolling(); // Start the polling for live updates
   });

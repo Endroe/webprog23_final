@@ -5,7 +5,7 @@
 
         <div class="col-md-3 col-lg-3">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span id="player2title" class="text-primary"></span>
+                <span id="player2title" class="text-primary">Player 2</span>
                 <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
                     <div id='player2emoji' class="rounded-circle me-1 emoji">⭕</div>
                 </span>
@@ -25,7 +25,14 @@
                 <div id="alert-roomNotAvailable">Sorry, that lobby is not available.</div>
             </div>
             <div class="justify-content-center mt-4">
-                <button class="btn btn-primary w-100" id="create-lobby-btn">Login</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary w-100" id="create-lobby-btn">Join</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-warning w-100" id="generate-lobby-key-btn">Random</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -50,7 +57,7 @@
 
         <div class="col-md-3 col-lg-3">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span id="player1title" class="text-primary">Opponent</span>
+                <span id="player1title" class="text-primary">Player 1</span>
                 <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
                     <div id='player1emoji' class="rounded-circle me-1 emoji">❌</div>
                 </span>
