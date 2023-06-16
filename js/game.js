@@ -30,7 +30,6 @@ function startPolling() {
     retrieveGameData();
     checkForUpdates();
     updatePage();
-    console.log("Fucl");
     if (gameStringState === "player1win" || gameStringState === "player2win") {
       handleWinReceive();
     }
@@ -263,14 +262,6 @@ function resetGame() {
     storeGameData(grid)
 }
 
-<<<<<<< HEAD
-/*
-Added the following handler for indicating leaving players but it still
-has the following issues:
-1. Only adds the loss to the leaving players leaderboard.
-2. Does NOT add the win to the other players leaderboard.
-3. You can only leave the game if it is your turn, i think.
-*/ 
 function handlePlayerLeave(lockedUsername) {
   if (lockedUsername === username1) {
     gameStringState = "player1forfeit";
@@ -280,7 +271,6 @@ function handlePlayerLeave(lockedUsername) {
   }
   storeGameData(grid);
   resetGame();
-  console.log("Forfeiting!");
 }
 
 function onReceiveForfeit() {
@@ -294,25 +284,6 @@ function onReceiveForfeit() {
   resetGame();
 }
 
-=======
-
-function forfeit(lockedUsername) {
-  // Determine the other player's username
-  const otherPlayer = (lockedUsername === username1) ? username2 : username1;
-  if (lockedUsername === username1) {
-    alert(`${username1} loses!`);
-    updateLeaderboard(lockedUsername, "loss");
-    alert(`${username2} wins!`);
-  } else if (lockedUsername === username2) {
-    alert(`${username2} loses!`);
-    updateLeaderboard(lockedUsername, "loss");
-    alert(`${username1} wins!`);
-  }
-  resetGame();
-}
-
-  
->>>>>>> fea063336bdad36fdfe3bcc5a0a406e9a74665fa
 $(document).ready(function() {
   $('#gameStatusIndicator').hide();
   $('#alert-invalidlobby').hide();
@@ -367,8 +338,14 @@ $(document).ready(function() {
 
   // Calls the leavingPlayer function
   $('#leave-game-btn').click(function() {
-    // Call the handlePlayerLeave function
-    forfeit(lockedUsername);
+    console.log("test");
+    if (gameStringState === "player1turn" && lockedUsername === username1) {
+      console.log("test1");
+      handlePlayerLeave(lockedUsername);
+    }
+    else if (gameStringState === "player2turn" && lockedUsername === username2) {
+      handlePlayerLeave(lockedUsername);
+    }
   });
 });
 
@@ -454,6 +431,7 @@ function updatePage() {
       break;
     case "player2forfeit":
       $('#gameStatusIndicator').text(username2 + " forfeited.");
+      break;
     case "player1win":
       $('#gameStatusIndicator').text(username1 + " wins!");
       break;

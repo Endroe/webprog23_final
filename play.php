@@ -66,7 +66,7 @@
 
             <div id="user1StatsDiv"></div>
             <div class="justify-content-center mt-4">
-                <button onclick="handlePlayerLeave()" class="btn btn-danger w-100" id="leave-game-btn">Forfeit</button>
+                <button class="btn btn-danger w-100" id="leave-game-btn">Forfeit</button>
             </div>
         </div>
         
