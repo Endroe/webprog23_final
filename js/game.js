@@ -30,6 +30,13 @@ function startPolling() {
     retrieveGameData();
     checkForUpdates();
     updatePage();
+    console.log("Fucl");
+    if (gameStringState === "player1win" || gameStringState === "player2win") {
+      handleWinReceive();
+    }
+    if (gameStringState === "player1forfeit" || gameStringState === "player2forfeit") {
+      onReceiveForfeit();
+    }
   }, pollingInterval);
 }
 
@@ -158,20 +165,38 @@ function checkForUpdates() {
 
 function checkGameEnd() {
   if (checkWin("X")) {
-    alert(`${username1} wins!`);
+    gameStringState = "player1win";
+    storeGameData(grid);
     sendOwnResult("X");
     resetGame();
   }
   else if (checkWin("O")) {
-    alert(`${username2} wins!`);
+    gameStringState = "player2win";
+    storeGameData(grid);
     sendOwnResult("O");
     resetGame();
   }
   else if (checkTie()) {
-    alert("It's a tie!");
+    //alert("It's a tie!");
+    gameStringState = "gameTie";
+    storeGameData(grid);
     sendOwnResult("tie");
     resetGame();
   }
+}
+
+function handleWinReceive() {
+  if (gameStringState === "player1win" && lockedUsername === username2) {
+    //sendOwnResult("X");
+    gameStringState = "player2turn";
+    resetGame();
+  }
+  else if (gameStringState === "player2win" && lockedUsername === username1) {
+    gameStringState = "player1turn";
+    //sendOwnResult("O");
+    resetGame();
+  }
+  storeGameData(grid);
 }
 
 function sendOwnResult(winner) {
@@ -236,7 +261,6 @@ function resetGame() {
       cells[i].style.backgroundColor = 'aliceblue';
     }
     storeGameData(grid)
-    currentPlayer = 'X';
 }
 
 /*
@@ -247,43 +271,27 @@ has the following issues:
 3. You can only leave the game if it is your turn, i think.
 */ 
 function handlePlayerLeave(lockedUsername) {
-  // Determine the other player's username
-  const otherPlayer = (lockedUsername === username1) ? username2 : username1;
   if (lockedUsername === username1) {
-    alert(`${username1} loses!`);
-    updateLeaderboard(lockedUsername, "loss");
-    alert(`${username2} wins!`);
-    updateLeaderboard(otherPlayer, "win");
-  } else if (lockedUsername === username2) {
-    alert(`${username2} loses!`);
-    updateLeaderboard(lockedUsername, "loss");
-    alert(`${username1} wins!`);
-    updateLeaderboard(otherPlayer, "win");
+    gameStringState = "player1forfeit";
   }
-  // // Check if the leaving player is part of the game
-  // if (lockedUsername === username1 || lockedUsername === username2) {
-  //   // The leaving player loses
-  //   alert(`${lockedUsername} loses!`);
-  //   updateLeaderboard(player, "loss");
-
-  //   // The other player wins
-  //   alert(`${otherPlayer} wins!`);
-  //   updateLeaderboard(player, "win");
-
-  //   resetGame();
-  // if (otherPlayer === username1 && lockedUsername === username2) {
-  //   alert(`${otherplayer} wins!`)
-  //   updateLeaderboard(username1, "win");
-  //   updateLeaderboard(username2, "loss");
-  //   resetGame();
-  // } else if (otherPlayer === username2 && lockedUsername === username1) {
-  //   alert(`${otherPlayer} wins!`)
-  //   updateLeaderboard(username2, "win");
-  //   updateLeaderboard(username1, "loss")
-  //   resetGame();
+  else if (lockedUsername === username2) {
+    gameStringState = "player2forfeit";
+  }
+  storeGameData(grid);
+  resetGame();
+  console.log("Forfeiting!");
 }
 
-  
+function onReceiveForfeit() {
+  if (gameStringState === "player1forfeit") {
+    gameStringState = "player2turn";
+  }
+  else if (gameStringState === "player2forfeit") {
+    gameStringState = "player1turn";
+  }
+  storeGameData(grid);
+  resetGame();
+}
 
 $(document).ready(function() {
   $('#gameStatusIndicator').hide();
@@ -412,17 +420,30 @@ function initializeGame() {
 
 function updatePage() {
   // Handle the status indicator.
-  if (gameStringState === "waiting") {
-    $('#gameStatusIndicator').text("Waiting for opponent...");
-  }
-  else if (gameStringState === "player1turn") {
-    $('#gameStatusIndicator').text(username1 + "'s turn...");
-  }
-  else if (gameStringState === "player2turn") {
-    $('#gameStatusIndicator').text(username2 + "'s turn...");
-  }
-  else {
-    $('#gameStatusIndicator').text("Unhandled game state.");
+  switch (gameStringState) {
+    case "waiting":
+      $('#gameStatusIndicator').text("Waiting for opponent...");
+      break;
+    case "player1turn":
+      $('#gameStatusIndicator').text(username1 + "'s turn...");
+      break;
+    case "player2turn":
+      $('#gameStatusIndicator').text(username2 + "'s turn...");
+      break;
+    case "player1forfeit":
+      $('#gameStatusIndicator').text(username1 + " forfeited.");
+      break;
+    case "player2forfeit":
+      $('#gameStatusIndicator').text(username2 + " forfeited.");
+    case "player1win":
+      $('#gameStatusIndicator').text(username1 + " wins!");
+      break;
+    case "player2win":
+      $('#gameStatusIndicator').text(username2 + " wins!");
+      break;
+    default:
+      $('#gameStatusIndicator').text(gameStringState);
+      break;
   }
 
   // Handle usernames on the screen.
