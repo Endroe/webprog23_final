@@ -108,6 +108,7 @@ function storeGameData() {
       player1: username1,
       player2: username2,
       stringState: gameStringState,
+      storeTime: lastUpdated,
     },
     success: function() {
       console.log('Game data stored successfully.');
@@ -129,6 +130,7 @@ function retrieveGameData() {
       gameData: grid,
       stringState: gameStringState,
       requestingClient: lockedUsername,
+      requestTime: "test"
     },
     dataType: 'json',
     success: function(response) {
@@ -350,6 +352,7 @@ function validateLobby(lobbyInput) {
 
 // Function to initialize the game
 function initializeGame() {
+  lastUpdated = new Date().getTime(); // Update the last updated timestamp
   lockedUsername = Cookies.get('username');
   let initialRetrieve = retrieveGameData();
   initialRetrieve.then(function() {

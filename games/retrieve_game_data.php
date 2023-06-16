@@ -2,6 +2,7 @@
 
 $filename = $_GET['filename'];
 $currentPlayer = $_GET['requestingClient'];
+$lastUpdated = $_GET['requestTime'];
 
 if (!empty($filename)) {
     $filePath = $filename;
@@ -17,20 +18,22 @@ if (!empty($filename)) {
             'gameData' => $gameData,
             'player1' => $player1,
             'player2' => $player2,
-            'stringState' => $stringState
+            'stringState' => $stringState,
+            'lastUpdated' => $lastUpdated,
         ];
         echo json_encode($responseData);
     } else {
         // Create an empty grid with additional data
         $emptyGrid = [
             'grid' => [
-                ['', 'X', ''],
+                ['', '', ''],
                 ['', '', ''],
                 ['', '', '']
             ],
             'player1' => $currentPlayer,
-            'player2' => null,
-            'stringState' => "waiting"
+            'player2' => "",
+            'stringState' => "waiting",
+            'lastUpdated' => $lastUpdated
         ];
         $jsonData = json_encode($emptyGrid);
 
