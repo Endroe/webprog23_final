@@ -194,6 +194,8 @@ function handleWinReceive() {
     gameStringState = "player1turn";
     //sendOwnResult("O");
     resetGame();
+  } else if (gameStringState === "player1forfeit") {
+
   }
   storeGameData(grid);
 }
@@ -212,6 +214,7 @@ function sendOwnResult(winner) {
     updateLeaderboard(lockedUsername, "loss");
   }
 }
+
 
 function checkWin(player) {
   // Check rows
@@ -264,9 +267,11 @@ function resetGame() {
 
 function handlePlayerLeave(lockedUsername) {
   if (lockedUsername === username1) {
+    updateLeaderboard(lockedUsername, "loss");
     gameStringState = "player1forfeit";
   }
   else if (lockedUsername === username2) {
+    updateLeaderboard(lockedUsername, "loss");
     gameStringState = "player2forfeit";
   }
   storeGameData(grid);
