@@ -1,26 +1,26 @@
 <?php include 'tpl/head.php'; ?>
-<div class="row justify-content-between" style='opacity: 0.8;'>
-    <div class="row">
-        <div class="col-md-4 cell" style="background-color: #007bff;"></div>
-        <div class="col-md-4 cell"></div>
-        <div class="col-md-4 cell"></div>
+    <div class="row justify-content-between" style='opacity: 0.8;'>
+        <div class="row">
+            <div class="col-md-4 cell" style="background-color: #007bff;"></div>
+            <div class="col-md-4 cell"></div>
+            <div class="col-md-4 cell"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 cell" style="background-color: #007bff;"></div>
+            <div class="col-md-4 cell"></div>
+            <div class="col-md-4 cell" style="background-color: #007bff;"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 cell" style="background-color: #007bff;"></div>
+            <div class="col-md-4 cell"></div>
+            <div class="col-md-4 cell"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 cell" style="background-color: #007bff;"></div>
+            <div class="col-md-4 cell"></div>
+            <div class="col-md-4 cell"></div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 cell" style="background-color: #007bff;"></div>
-        <div class="col-md-4 cell"></div>
-        <div class="col-md-4 cell" style="background-color: #007bff;"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 cell" style="background-color: #007bff;"></div>
-        <div class="col-md-4 cell"></div>
-        <div class="col-md-4 cell"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 cell" style="background-color: #007bff;"></div>
-        <div class="col-md-4 cell"></div>
-        <div class="col-md-4 cell"></div>
-    </div>
-</div>
     <main role="main" class="inner cover content">
         <h1>Tic Tac Toe.</h1>
         <p class="lead">Players can test their skills against opponents and strive to achieve the top positions on the leaderboard. Emojis can be added to accounts to add a touch of fun and visual appeal.</p>
@@ -30,13 +30,7 @@
         <h1>Leaderboard</h1>
         <div id="leaderboard"></div>
     </main>
-    <footer class="mastfoot mt-auto">
-        <p>Created by Andrew, Jawid & Cody</p>
-    </footer>
-</div>
-</body>
-
-</html>
+<?php include 'tpl/footer.php'; ?>
 <script>
 var stopAnimation = false; // Set this flag to true when you want to stop the animation
 

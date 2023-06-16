@@ -74,8 +74,4 @@
 
     </div>
     </div>
-
-</div>
-</body>
-
-</html>
+<?php include 'tpl/footer.php'; ?>

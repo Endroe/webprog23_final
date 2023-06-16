@@ -24,7 +24,5 @@
 
     <div id="emoji-container" class="row"></div>
 
-    <script src="js/shop.js"></script> 
-</body>
-
-</html>
+<script src="js/shop.js"></script> 
+<?php include 'tpl/footer.php'; ?>
