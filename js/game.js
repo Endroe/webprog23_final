@@ -263,6 +263,7 @@ function resetGame() {
     storeGameData(grid)
 }
 
+<<<<<<< HEAD
 /*
 Added the following handler for indicating leaving players but it still
 has the following issues:
@@ -293,6 +294,25 @@ function onReceiveForfeit() {
   resetGame();
 }
 
+=======
+
+function forfeit(lockedUsername) {
+  // Determine the other player's username
+  const otherPlayer = (lockedUsername === username1) ? username2 : username1;
+  if (lockedUsername === username1) {
+    alert(`${username1} loses!`);
+    updateLeaderboard(lockedUsername, "loss");
+    alert(`${username2} wins!`);
+  } else if (lockedUsername === username2) {
+    alert(`${username2} loses!`);
+    updateLeaderboard(lockedUsername, "loss");
+    alert(`${username1} wins!`);
+  }
+  resetGame();
+}
+
+  
+>>>>>>> fea063336bdad36fdfe3bcc5a0a406e9a74665fa
 $(document).ready(function() {
   $('#gameStatusIndicator').hide();
   $('#alert-invalidlobby').hide();
@@ -348,8 +368,7 @@ $(document).ready(function() {
   // Calls the leavingPlayer function
   $('#leave-game-btn').click(function() {
     // Call the handlePlayerLeave function
-    handlePlayerLeave(lockedUsername);
-    resetGame();
+    forfeit(lockedUsername);
   });
 });
 
