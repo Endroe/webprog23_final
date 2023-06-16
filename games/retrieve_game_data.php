@@ -1,4 +1,20 @@
 <?php
+/**
+ * Attempts to retrieve the game data from the requested JSON file.
+ * If the file cannot be found, create it with initial data and send that to the user instead.
+ *
+ * @param string $filename The requested filename for the JSON file.
+ * @param string $currentPlayer The username of the player requesting the game data.
+ * @param integer $lastUpdated The UNIX timestamp for when the data was requested.
+ * @param object $data The raw data obtained from the JSON file.
+ * @param object $data_decode The decoded JSON data from the file.
+ * @param array $gameData The status of the game board.
+ * @param string $player1 The username of player 1.
+ * @param string $player2 The username of player 2.
+ * @param string $stringState What action the game is currently in.
+ * @param object $responseData The data to be returned to the requesting user.
+ * @param object $jsonData The encoded version of $responseData.
+ */
 
 $filename = $_GET['filename'];
 $currentPlayer = $_GET['requestingClient'];
