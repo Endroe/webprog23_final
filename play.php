@@ -1,7 +1,7 @@
 <?php include 'tpl/head.php'; ?>
 
     <!-- style="display: none;" -->
-    <div class="row justify-content-center jumbotron" id="game-board"  >
+    <div class="row justify-content-center" id="game-board"  >
 
         <div class="col-md-3 col-lg-3">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -34,10 +34,9 @@
                     </div>
                 </div>
             </div>
-            <hr class="d-md-none" />
         </div>
 
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <div class="col-md-4 cell" onclick="Move(0,0)" id="cell-0-0"></div>
                 <div class="col-md-4 cell" onclick="Move(0,1)" id="cell-0-1"></div>
@@ -55,8 +54,8 @@
             </div>
         </div>
 
+
         <div class="col-md-3 col-lg-3">
-            <hr class="d-md-none" />    
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span id="player1title" class="text-primary">Player 1</span>
                 <span class="badge d-flex align-items-center p-1 pe-2 text-secondary-emphasis bg-danger-subtle border border-danger-subtle rounded-pill">
