@@ -239,52 +239,23 @@ function resetGame() {
     currentPlayer = 'X';
 }
 
-/*
-Added the following handler for indicating leaving players but it still
-has the following issues:
-1. Only adds the loss to the leaving players leaderboard.
-2. Does NOT add the win to the other players leaderboard.
-3. You can only leave the game if it is your turn, i think.
-*/ 
-function handlePlayerLeave(lockedUsername) {
+
+function forfeit(lockedUsername) {
   // Determine the other player's username
   const otherPlayer = (lockedUsername === username1) ? username2 : username1;
   if (lockedUsername === username1) {
     alert(`${username1} loses!`);
     updateLeaderboard(lockedUsername, "loss");
     alert(`${username2} wins!`);
-    updateLeaderboard(otherPlayer, "win");
   } else if (lockedUsername === username2) {
     alert(`${username2} loses!`);
     updateLeaderboard(lockedUsername, "loss");
     alert(`${username1} wins!`);
-    updateLeaderboard(otherPlayer, "win");
   }
-  // // Check if the leaving player is part of the game
-  // if (lockedUsername === username1 || lockedUsername === username2) {
-  //   // The leaving player loses
-  //   alert(`${lockedUsername} loses!`);
-  //   updateLeaderboard(player, "loss");
-
-  //   // The other player wins
-  //   alert(`${otherPlayer} wins!`);
-  //   updateLeaderboard(player, "win");
-
-  //   resetGame();
-  // if (otherPlayer === username1 && lockedUsername === username2) {
-  //   alert(`${otherplayer} wins!`)
-  //   updateLeaderboard(username1, "win");
-  //   updateLeaderboard(username2, "loss");
-  //   resetGame();
-  // } else if (otherPlayer === username2 && lockedUsername === username1) {
-  //   alert(`${otherPlayer} wins!`)
-  //   updateLeaderboard(username2, "win");
-  //   updateLeaderboard(username1, "loss")
-  //   resetGame();
+  resetGame();
 }
 
   
-
 $(document).ready(function() {
   $('#gameStatusIndicator').hide();
   $('#alert-invalidlobby').hide();
@@ -340,8 +311,7 @@ $(document).ready(function() {
   // Calls the leavingPlayer function
   $('#leave-game-btn').click(function() {
     // Call the handlePlayerLeave function
-    handlePlayerLeave(lockedUsername);
-    resetGame();
+    forfeit(lockedUsername);
   });
 });
 
